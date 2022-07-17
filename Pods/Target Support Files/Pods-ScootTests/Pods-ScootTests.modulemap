@@ -1,0 +1,6 @@
+framework module Pods_ScootTests {
+  umbrella header "Pods-ScootTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
