@@ -42,8 +42,8 @@ class LoginVC: UIViewController {
         return label
     }()
     
-    private let emailTextField: PaddingTextField = {
-        let field = PaddingTextField()
+    private let emailTextField: UITextField = {
+        let field = UITextField()
         field.layer.cornerRadius = 8
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.systemGray.cgColor
@@ -51,11 +51,12 @@ class LoginVC: UIViewController {
         field.autocapitalizationType = .none
         field.attributedPlaceholder = NSAttributedString(
             string: "Email Adress",attributes: [ NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .regular)])
+        field.setLeftPadding(padding: 16)
         
         return field
     }()
     
-    private var passwordTextField = PaddingTextField()
+    private let passwordTextField = UITextField()
     let button = UIButton(type: .custom)
     
     private let loginButton: UIButton = {
@@ -94,6 +95,18 @@ class LoginVC: UIViewController {
         super.viewDidLayoutSubviews()
         configureConstraints()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+       super.viewWillAppear(animated)
+       
+       AppUtility.lockOrientation(.portrait)
+   }
+
+   override func viewWillDisappear(_ animated: Bool) {
+       super.viewWillDisappear(animated)
+       
+       AppUtility.lockOrientation(.all)
+   }
     
     private func addViews() {
         view.addSubview(rectangleView)
@@ -163,10 +176,13 @@ private extension LoginVC {
         passwordTextField.addTarget(self, action: #selector(passwordDidChange(_:)), for: .editingChanged)
         passwordTextField.layer.cornerRadius = 8
         passwordTextField.layer.borderWidth = 1
+        passwordTextField.autocorrectionType = .no
+        passwordTextField.autocapitalizationType = .none
         passwordTextField.layer.borderColor = UIColor.systemGray.cgColor
         passwordTextField.attributedPlaceholder = NSAttributedString(
             string: "Password",attributes: [ NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .regular)])
         passwordTextField.rightViewMode = .always
+        passwordTextField.setLeftPadding(padding: 16)
         
         button.setImage(UIImage(systemName: "eye"), for: .normal)
         button.tintColor = .systemGray

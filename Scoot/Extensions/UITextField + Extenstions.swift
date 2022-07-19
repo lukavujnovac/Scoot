@@ -28,6 +28,12 @@ extension UITextField {
             y: outerView.bounds.size.height / 2
         )
 
+        rightViewMode = .always
         rightView = outerView
+    }
+    
+    func setLeftPadding(padding: CGFloat) {
+        leftViewMode = .always
+        leftView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: 0))
     }
 }

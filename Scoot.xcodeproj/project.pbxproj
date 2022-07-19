@@ -18,6 +18,7 @@
 		31EB1A7D4D6A942146348C15 /* Pods_Scoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AA7F9B8D8DB4F174E8B8B /* Pods_Scoot.framework */; };
 		42A046F1D540EFBED5CC490C /* Pods_Scoot_ScootUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33CB53782B17353612723F4B /* Pods_Scoot_ScootUITests.framework */; };
 		9018BC812886EF57008DFDDA /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9018BC802886EF57008DFDDA /* K.swift */; };
+		90A999EF28874693004AC862 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A999EE28874693004AC862 /* AppUtility.swift */; };
 		90CBA32A2886E3E50043ADEA /* UIColor + Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */; };
 		90CBA32E2886E5790043ADEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90CBA32D2886E5790043ADEA /* Main.storyboard */; };
 		90FF8BBC2887322C00724D32 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FF8BBB2887322C00724D32 /* PaddingTextField.swift */; };
@@ -62,6 +63,7 @@
 		450BE8F5DED30B1E1E074D69 /* Pods-Scoot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Scoot.release.xcconfig"; path = "Target Support Files/Pods-Scoot/Pods-Scoot.release.xcconfig"; sourceTree = "<group>"; };
 		8F43A59A856BBFF5B54ACE2B /* Pods-Scoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Scoot.debug.xcconfig"; path = "Target Support Files/Pods-Scoot/Pods-Scoot.debug.xcconfig"; sourceTree = "<group>"; };
 		9018BC802886EF57008DFDDA /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
+		90A999EE28874693004AC862 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extenstions.swift"; sourceTree = "<group>"; };
 		90CBA32D2886E5790043ADEA /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		90FF8BBB2887322C00724D32 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		0072399F28844AB900BFEC1F /* Scoot */ = {
 			isa = PBXGroup;
 			children = (
+				90A999ED2887467F004AC862 /* Helpers */,
 				9018BC822886EF7F008DFDDA /* Resources */,
 				90CBA32C2886E4670043ADEA /* Scenes */,
 				90FF8BC128873C7D00724D32 /* Models */,
@@ -173,6 +176,14 @@
 				9018BC802886EF57008DFDDA /* K.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		90A999ED2887467F004AC862 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				90A999EE28874693004AC862 /* AppUtility.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		90CBA32B2886E41F0043ADEA /* Extensions */ = {
@@ -455,6 +466,7 @@
 			files = (
 				90FF8BBE2887341700724D32 /* UITextField + Extenstions.swift in Sources */,
 				007239A528844AB900BFEC1F /* LoginVC.swift in Sources */,
+				90A999EF28874693004AC862 /* AppUtility.swift in Sources */,
 				90FF8BBC2887322C00724D32 /* PaddingTextField.swift in Sources */,
 				9018BC812886EF57008DFDDA /* K.swift in Sources */,
 				007239A128844AB900BFEC1F /* AppDelegate.swift in Sources */,
@@ -635,6 +647,7 @@
 				INFOPLIST_FILE = Scoot/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -663,6 +676,7 @@
 				INFOPLIST_FILE = Scoot/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
