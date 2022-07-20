@@ -42,35 +42,26 @@ class LoginVC: UIViewController {
         return label
     }()
     
-    private let emailTextField: UITextField = {
-        let field = UITextField()
-        field.layer.cornerRadius = 8
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.systemGray.cgColor
-        field.autocorrectionType = .no
-        field.autocapitalizationType = .none
-        field.attributedPlaceholder = NSAttributedString(
-            string: "Email Adress",attributes: [ NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .regular)])
-        field.setLeftPadding(padding: 16)
+    private let emailTextField = ScootTextField(placeholderText: "Email Adress")
+    private var emailString: String = ""
+    
+    private let passwordTextField = ScootTextField(placeholderText: "Password")
+    private var passwordString: String = ""
+    private let button = UIButton(type: .custom)
+    
+    private var errorMessageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Unesena je nepostojeća e-mail adresa ili pogrešna zaporka."
+        label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        label.textColor = .systemRed
+        label.isHidden = true
         
-        return field
+        return label
     }()
     
-    private let passwordTextField = UITextField()
-    let button = UIButton(type: .custom)
-    
-    private let loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Login", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.tintColor = .scootPurple500
-        button.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 8
-        button.layer.borderColor = UIColor.black.cgColor
-        button.backgroundColor = .scootPurple500
-        
-        return button
-    }()
+    private let loginButton = ScootButton(backgruondColor: UIColor.scootPurple500!, title: "Login", titleColor: .systemBackground)
     
     private var passwordVisibility: Bool = true
     
@@ -82,13 +73,10 @@ class LoginVC: UIViewController {
         
         configureEmailTF()
         configurePasswordTF()
+        configureLoginButton()
         self.hideKeyboardWhenTappedAround()
         
         addViews()
-    }
-    
-    @objc private func loginTapped() {
-        print("login")
     }
     
     override func viewDidLayoutSubviews() {
@@ -116,6 +104,7 @@ class LoginVC: UIViewController {
         rectangleView.addSubview(loginSublabel)
         rectangleView.addSubview(emailTextField)
         rectangleView.addSubview(passwordTextField)
+        rectangleView.addSubview(errorMessageLabel)
         rectangleView.addSubview(loginButton)
     }
 }
@@ -157,6 +146,12 @@ private extension LoginVC {
             $0.height.equalTo(56)
         }
         
+        errorMessageLabel.snp.makeConstraints {
+            $0.leading.equalTo(passwordTextField.snp.leading)
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(8)
+            $0.trailing.equalTo(passwordTextField.snp.trailing)
+        }
+        
         loginButton.snp.makeConstraints {
             $0.height.equalTo(56)
             $0.width.equalToSuperview().offset(-64)
@@ -174,15 +169,6 @@ private extension LoginVC {
     
     func configurePasswordTF() {
         passwordTextField.addTarget(self, action: #selector(passwordDidChange(_:)), for: .editingChanged)
-        passwordTextField.layer.cornerRadius = 8
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.autocorrectionType = .no
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.layer.borderColor = UIColor.systemGray.cgColor
-        passwordTextField.attributedPlaceholder = NSAttributedString(
-            string: "Password",attributes: [ NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .regular)])
-        passwordTextField.rightViewMode = .always
-        passwordTextField.setLeftPadding(padding: 16)
         
         button.setImage(UIImage(systemName: "eye"), for: .normal)
         button.tintColor = .systemGray
@@ -191,6 +177,22 @@ private extension LoginVC {
         
         passwordTextField.setRightView(button, padding: 16.25)
         passwordTextField.isSecureTextEntry = true
+    }
+    
+    @objc private func loginTapped() {
+        print("login")
+//        passwordTextField.layer.borderColor = UIColor.systemRed.cgColor
+//        emailTextField.layer.borderColor = UIColor.systemRed.cgColor
+        showSpinner()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.hideSpinner()
+            self.errorMessageLabel.isHidden = false
+        }
+    }
+    
+    func configureLoginButton() {
+        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
     }
     
     @objc func btnPasswordVisiblityClicked(_ sender: Any) {
@@ -206,6 +208,7 @@ private extension LoginVC {
     
     @objc func emailDidChange(_ textField: UITextField) {
         emailTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
+        emailString = emailTextField.text ?? ""
         
         if emailTextField.text == "" {
             emailTextField.layer.borderColor = UIColor.systemGray.cgColor
@@ -214,6 +217,7 @@ private extension LoginVC {
     
     @objc func passwordDidChange(_ textField: UITextField) {
         passwordTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
+        passwordString = passwordTextField.text ?? ""
         
         if passwordTextField.text == "" {
             passwordTextField.layer.borderColor = UIColor.systemGray.cgColor
