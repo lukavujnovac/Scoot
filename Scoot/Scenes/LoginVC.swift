@@ -42,12 +42,10 @@ class LoginVC: UIViewController {
         return label
     }()
     
-    private let emailTextField = ScootTextField(placeholderText: "Email Adress")
-    private var emailString: String = ""
+    private let emailTextField = ScootTextField(placeholderText: "Email Adress", type: .emailField)
+    private let passwordTextField = ScootTextField(placeholderText: "Password", type: .passwordField)
     
-    private let passwordTextField = ScootTextField(placeholderText: "Password")
-    private var passwordString: String = ""
-    private let button = UIButton(type: .custom)
+    private let passwordVisibillityButton = UIButton(type: .custom)
     
     private var errorMessageLabel: UILabel = {
         let label = UILabel()
@@ -87,12 +85,14 @@ class LoginVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
        super.viewWillAppear(animated)
        
+        //fix
        AppUtility.lockOrientation(.portrait)
    }
 
    override func viewWillDisappear(_ animated: Bool) {
        super.viewWillDisappear(animated)
        
+       //fix
        AppUtility.lockOrientation(.all)
    }
     
@@ -156,7 +156,7 @@ private extension LoginVC {
             $0.height.equalTo(56)
             $0.width.equalToSuperview().offset(-64)
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(141)
+            $0.top.equalTo(errorMessageLabel).offset(100)
         }
     }
 }
@@ -164,18 +164,18 @@ private extension LoginVC {
 private extension LoginVC {
     
     func configureEmailTF() {
-        emailTextField.addTarget(self, action: #selector(emailDidChange(_:)), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(emailDidChange), for: .editingChanged)
     }
     
     func configurePasswordTF() {
-        passwordTextField.addTarget(self, action: #selector(passwordDidChange(_:)), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
         
-        button.setImage(UIImage(systemName: "eye"), for: .normal)
-        button.tintColor = .systemGray
-        button.frame = CGRect(x: 0, y: 0, width: CGFloat(22.5), height: CGFloat(13.5))
-        button.addTarget(self, action: #selector(self.btnPasswordVisiblityClicked), for: .touchUpInside)
+        passwordVisibillityButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        passwordVisibillityButton.tintColor = .systemGray
+        passwordVisibillityButton.frame = CGRect(x: 0, y: 0, width: CGFloat(22.5), height: CGFloat(13.5))
+        passwordVisibillityButton.addTarget(self, action: #selector(self.btnPasswordVisiblityClicked), for: .touchUpInside)
         
-        passwordTextField.setRightView(button, padding: 16.25)
+        passwordTextField.setRightView(passwordVisibillityButton, padding: 16.25)
         passwordTextField.isSecureTextEntry = true
     }
     
@@ -187,7 +187,11 @@ private extension LoginVC {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.hideSpinner()
-            self.errorMessageLabel.isHidden = false
+//            self.errorMessageLabel.isHidden = false
+            let vc = VehicleListVC()
+            vc.modalPresentationStyle = .fullScreen
+//            self.present(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -199,25 +203,27 @@ private extension LoginVC {
            (sender as! UIButton).isSelected = !(sender as! UIButton).isSelected
            if (sender as! UIButton).isSelected {
                self.passwordTextField.isSecureTextEntry = false
-               button.setImage(UIImage(systemName: "eye"), for: .normal)
+               passwordVisibillityButton.setImage(UIImage(systemName: "eye"), for: .normal)
            } else {
                self.passwordTextField.isSecureTextEntry = true
-               button.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+               passwordVisibillityButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
            }
        }
     
-    @objc func emailDidChange(_ textField: UITextField) {
+    @objc func emailDidChange() {
         emailTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
-        emailString = emailTextField.text ?? ""
+        emailTextField.clearsOnBeginEditing = false
         
         if emailTextField.text == "" {
             emailTextField.layer.borderColor = UIColor.systemGray.cgColor
         }
     }
     
-    @objc func passwordDidChange(_ textField: UITextField) {
+    @objc func passwordDidChange() {
         passwordTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
-        passwordString = passwordTextField.text ?? ""
+//        passwordString = passwordTextField.text ?? ""
+//        passwordTextField.clearsOnBeginEditing = false
+        print(passwordTextField.text)
         
         if passwordTextField.text == "" {
             passwordTextField.layer.borderColor = UIColor.systemGray.cgColor

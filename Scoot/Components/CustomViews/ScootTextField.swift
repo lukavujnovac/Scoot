@@ -17,13 +17,21 @@ class ScootTextField: UITextField {
         configure()
     }
     
-    init(placeholderText: String) {
+    init(placeholderText: String, type: TFType) {
         super.init(frame: .zero)
         
 //        self.placeholder = placeholderText
         self.attributedPlaceholder = NSAttributedString(
             string: placeholderText,attributes: [ NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .regular)])
+        
+        self.isSecureTextEntry = type == .emailField ? false : true
         configure()
+    }
+    
+    enum TFType {
+        case emailField
+        case passwordField
+        
     }
     
     private func configure() {
