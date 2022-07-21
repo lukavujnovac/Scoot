@@ -23,10 +23,13 @@
 		906191C12887FB4C005EEF2A /* VehicleListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191C02887FB4C005EEF2A /* VehicleListVC.swift */; };
 		906191C3288803E4005EEF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 906191C2288803E4005EEF2A /* Main.storyboard */; };
 		906191C728881D9E005EEF2A /* VehicleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191C528881D9E005EEF2A /* VehicleCell.swift */; };
-		906191C828881D9E005EEF2A /* VehicleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 906191C628881D9E005EEF2A /* VehicleCell.xib */; };
 		906191CC288823B7005EEF2A /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191CB288823B7005EEF2A /* MockData.swift */; };
 		90A999EF28874693004AC862 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A999EE28874693004AC862 /* AppUtility.swift */; };
 		90CBA32A2886E3E50043ADEA /* UIColor + Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */; };
+		90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E959C12888AE37001C3F54 /* LocationCell.swift */; };
+		90E959C42888AE37001C3F54 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E959C22888AE37001C3F54 /* LocationCell.xib */; };
+		90E99EB728894C04007F955E /* VehicleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 906191C628881D9E005EEF2A /* VehicleCell.xib */; };
+		90E99EB928896ADF007F955E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E99EB828896ADF007F955E /* LocationService.swift */; };
 		90FF8BBE2887341700724D32 /* UITextField + Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FF8BBD2887341700724D32 /* UITextField + Extenstions.swift */; };
 		90FF8BC0288735D300724D32 /* UIViewController + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FF8BBF288735D300724D32 /* UIViewController + Extensions.swift */; };
 		93FF80916A546BCFF7A3E0CB /* Pods_ScootTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EBBEEAC98160D2235ED91 /* Pods_ScootTests.framework */; };
@@ -77,6 +80,9 @@
 		906191CB288823B7005EEF2A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		90A999EE28874693004AC862 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extenstions.swift"; sourceTree = "<group>"; };
+		90E959C12888AE37001C3F54 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		90E959C22888AE37001C3F54 /* LocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
+		90E99EB828896ADF007F955E /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		90FF8BBD2887341700724D32 /* UITextField + Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField + Extenstions.swift"; sourceTree = "<group>"; };
 		90FF8BBF288735D300724D32 /* UIViewController + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extensions.swift"; sourceTree = "<group>"; };
 		953EBBEEAC98160D2235ED91 /* Pods_ScootTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScootTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,8 +153,7 @@
 				007239A928844ABA00BFEC1F /* Assets.xcassets */,
 				007239AB28844ABA00BFEC1F /* LaunchScreen.storyboard */,
 				906191C2288803E4005EEF2A /* Main.storyboard */,
-				007239A228844AB900BFEC1F /* SceneDelegate.swift */,
-				007239A028844AB900BFEC1F /* AppDelegate.swift */,
+				90E99EB628894B10007F955E /* initialization */,
 				007239AE28844ABA00BFEC1F /* Info.plist */,
 			);
 			path = Scoot;
@@ -192,8 +197,8 @@
 		906191C428881D76005EEF2A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				906191C528881D9E005EEF2A /* VehicleCell.swift */,
-				906191C628881D9E005EEF2A /* VehicleCell.xib */,
+				90E959C52888AE41001C3F54 /* VehicleCell */,
+				90E959C62888AE4A001C3F54 /* LocationCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				906191CB288823B7005EEF2A /* MockData.swift */,
+				90E99EB828896ADF007F955E /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -235,11 +241,38 @@
 		90CBA32C2886E4670043ADEA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				906191C428881D76005EEF2A /* Cells */,
 				007239A428844AB900BFEC1F /* LoginVC.swift */,
 				906191C02887FB4C005EEF2A /* VehicleListVC.swift */,
+				906191C428881D76005EEF2A /* Cells */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		90E959C52888AE41001C3F54 /* VehicleCell */ = {
+			isa = PBXGroup;
+			children = (
+				906191C528881D9E005EEF2A /* VehicleCell.swift */,
+				906191C628881D9E005EEF2A /* VehicleCell.xib */,
+			);
+			path = VehicleCell;
+			sourceTree = "<group>";
+		};
+		90E959C62888AE4A001C3F54 /* LocationCell */ = {
+			isa = PBXGroup;
+			children = (
+				90E959C12888AE37001C3F54 /* LocationCell.swift */,
+				90E959C22888AE37001C3F54 /* LocationCell.xib */,
+			);
+			path = LocationCell;
+			sourceTree = "<group>";
+		};
+		90E99EB628894B10007F955E /* initialization */ = {
+			isa = PBXGroup;
+			children = (
+				007239A228844AB900BFEC1F /* SceneDelegate.swift */,
+				007239A028844AB900BFEC1F /* AppDelegate.swift */,
+			);
+			path = initialization;
 			sourceTree = "<group>";
 		};
 		90FF8BC128873C7D00724D32 /* CustomViews */ = {
@@ -373,7 +406,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				906191C828881D9E005EEF2A /* VehicleCell.xib in Resources */,
+				90E959C42888AE37001C3F54 /* LocationCell.xib in Resources */,
+				90E99EB728894C04007F955E /* VehicleCell.xib in Resources */,
 				906191C3288803E4005EEF2A /* Main.storyboard in Resources */,
 				007239AD28844ABA00BFEC1F /* LaunchScreen.storyboard in Resources */,
 				007239AA28844ABA00BFEC1F /* Assets.xcassets in Resources */,
@@ -508,8 +542,10 @@
 				90FF8BBE2887341700724D32 /* UITextField + Extenstions.swift in Sources */,
 				906191C12887FB4C005EEF2A /* VehicleListVC.swift in Sources */,
 				906191CC288823B7005EEF2A /* MockData.swift in Sources */,
+				90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */,
 				007239A528844AB900BFEC1F /* LoginVC.swift in Sources */,
 				90A999EF28874693004AC862 /* AppUtility.swift in Sources */,
+				90E99EB928896ADF007F955E /* LocationService.swift in Sources */,
 				906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */,
 				9018BC812886EF57008DFDDA /* K.swift in Sources */,
 				007239A128844AB900BFEC1F /* AppDelegate.swift in Sources */,

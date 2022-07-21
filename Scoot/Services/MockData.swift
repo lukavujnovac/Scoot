@@ -48,14 +48,14 @@ struct VehicleModel {
 
 struct MockData {
     static let vehicles = [
-        VehicleModel(type: .scooter, status: .available, battery: 99, price: 150.0, location: "2.1", name: "shaomi romobil", image: "scooterImage", id: "1"),
-        VehicleModel(type: .bike, status: .available, battery: 99, price: 150.0, location: "2.1", name: "bicikla", image: "bikeImage", id: "2"),
-        VehicleModel(type: .scooter, status: .available, battery: 99, price: 150.0, location: "2.1", name: "shaomi romobil", image: "scooterImage", id: "3"),
-        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "skateboard", image: "skateboardImage", id: "4"),
-        VehicleModel(type: .bike, status: .available, battery: 99, price: 150.0, location: "2.1", name: "bicikla", image: "bikeImage", id: "5"),
-        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "skateboard", image: "skateboardImage", id: "6"),
-        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "skateboard", image: "skateboardImage", id: "7"),
-        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "skateboard", image: "skateboardImage", id: "8"),
-        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "skateboard", image: "skateboardImage", id: "9"),
+        VehicleModel(type: .scooter, status: .available, battery: 99, price: 150.0, location: "2.1", name: "meepo shuffle s (v4s)", image: "scooterImage", id: "1"),
+        VehicleModel(type: .bike, status: .available, battery: 99, price: 150.0, location: "2.1", name: "aostirmotor elektrofahrrad 1500", image: "bikeImage", id: "2"),
+        VehicleModel(type: .scooter, status: .available, battery: 99, price: 150.0, location: "2.1", name: "meepo shuffle s (v4s)", image: "scooterImage", id: "3"),
+        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "4"),
+        VehicleModel(type: .bike, status: .available, battery: 99, price: 150.0, location: "2.1", name: "aostirmotor elektrofahrrad 1500", image: "bikeImage", id: "5"),
+        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "6"),
+        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "7"),
+        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "8"),
+        VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "9"),
     ]
 }

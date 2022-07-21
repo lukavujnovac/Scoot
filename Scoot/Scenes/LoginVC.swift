@@ -170,7 +170,7 @@ private extension LoginVC {
     func configurePasswordTF() {
         passwordTextField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
         
-        passwordVisibillityButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        passwordVisibillityButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         passwordVisibillityButton.tintColor = .systemGray
         passwordVisibillityButton.frame = CGRect(x: 0, y: 0, width: CGFloat(22.5), height: CGFloat(13.5))
         passwordVisibillityButton.addTarget(self, action: #selector(self.btnPasswordVisiblityClicked), for: .touchUpInside)

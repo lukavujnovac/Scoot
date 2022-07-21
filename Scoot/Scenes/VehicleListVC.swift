@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import CoreLocation
 
 class VehicleListVC: UIViewController {
     
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(UINib(nibName: "VehicleCell", bundle: nil), forCellReuseIdentifier: VehicleCell.identifier)
+        table.register(UINib(nibName: "LocationCell", bundle: nil), forCellReuseIdentifier: LocationCell.identifier)
+        table.contentInset.bottom = 100
         
         return table
     }()
@@ -33,24 +36,53 @@ class VehicleListVC: UIViewController {
     }()
     
     let vehicles = MockData.vehicles
-
+    
+    var manager: CLLocationManager?
+    var locationString: String = "no location"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addViews()
-
+        
         tableView.delegate = self
         tableView.dataSource = self
-
+        
+        configureButton()
+        
         view.backgroundColor = .systemBackground
+        
         title = "Available vehicles"
         navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+        //        tableView.frame = view.frame.insetBy(dx: 0.0, dy: 100.0)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+//        tableView.frame = view.bounds
+//        let footerView = UIView()
+//        footerView.frame.size.height = 200
+//        tableView.tableFooterView = footerView
         configureConstraints()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        manager = CLLocationManager()
+        manager?.delegate = self
+        manager?.desiredAccuracy = kCLLocationAccuracyBest
+        manager?.requestWhenInUseAuthorization()
+        manager?.startUpdatingLocation()
     }
 }
 
@@ -82,12 +114,7 @@ private extension VehicleListVC {
     }
     
     @objc private func scanTapped() {
-        print("scan ")
-        showSpinner()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.hideSpinner()
-        }
+        print("scan")
     }
 }
 
@@ -97,13 +124,115 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 129
+//        return indexPath.row == 0 ? 58 : UITableView.automaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: LocationCell.identifier, for: indexPath) as? LocationCell else {fatalError()}
+            cell.configure(with: locationString)
+            
+            return cell
+        }
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         cell.configure(with: vehicles[indexPath.row])
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+    }
+    
+    func showSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastItem = vehicles.count - 2
+        if indexPath.row == lastItem {
+            tableView.tableFooterView = showSpinnerFooter()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.tableView.tableFooterView = nil
+            }
+        }
+    }
 }
+
+extension VehicleListVC: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let first = locations.first else {return}
+        
+        var locationLon = "\(first.coordinate.longitude)"
+        var locationLat = "\(first.coordinate.latitude)"
+        
+        getAddressFromLatLon(pdblLatitude: locationLat, withLongitude: locationLon)
+//        locationString = "\(first.coordinate.longitude) / \(first.coordinate.latitude)"
+        
+        
+        print(locationString)
+        tableView.reloadData()
+    }
+    
+    func getAddressFromLatLon(pdblLatitude: String, withLongitude pdblLongitude: String){
+            var center : CLLocationCoordinate2D = CLLocationCoordinate2D()
+            let lat: Double = Double("\(pdblLatitude)")!
+            
+            let lon: Double = Double("\(pdblLongitude)")!
+
+            let ceo: CLGeocoder = CLGeocoder()
+            center.latitude = lat
+            center.longitude = lon
+
+            let loc: CLLocation = CLLocation(latitude:center.latitude, longitude: center.longitude)
+
+
+            ceo.reverseGeocodeLocation(loc, completionHandler:
+                {(placemarks, error) in
+                    if (error != nil)
+                    {
+                        print("reverse geodcode fail: \(error!.localizedDescription)")
+                    }
+                    let pm = placemarks! as [CLPlacemark]
+
+                    if pm.count > 0 {
+                        let pm = placemarks![0]
+//                        print(pm.country)
+//                        print(pm.locality)
+//                        print(pm.subLocality)
+//                        print(pm.thoroughfare)
+//                        print(pm.postalCode)
+//                        print(pm.subThoroughfare)
+                        var addressString : String = ""
+                        //ulica
+                        if pm.thoroughfare != nil {
+                            addressString += pm.thoroughfare! + ", "
+                        }
+                        //broj ulice
+                        if pm.subThoroughfare != nil {
+                            addressString += pm.subThoroughfare! + ", "
+                        }
+                        //grad
+                        if pm.locality != nil {
+                            addressString += pm.locality! + ", "
+                        }
+                        if pm.country != nil {
+                            addressString += pm.country! + ", "
+                        }
+                        if pm.postalCode != nil {
+                            addressString += pm.postalCode! + " "
+                        }
+                        self.locationString = addressString
+                  }
+            })
+        }
+}
+
