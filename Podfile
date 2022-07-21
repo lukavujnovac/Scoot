@@ -6,6 +6,11 @@ target 'Scoot' do
   use_frameworks!
 
   # Pods for Scoot
+  
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'Kingfisher', '~> 7.0'
+  pod 'PromiseKit/Alamofire', '~> 6.0'
+  pod "PromiseKit", "~> 6.8"
 
   target 'ScootTests' do
     inherit! :search_paths
