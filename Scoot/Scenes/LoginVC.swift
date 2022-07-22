@@ -44,6 +44,9 @@ class LoginVC: UIViewController {
     
     private let emailTextField = ScootTextField(placeholderText: "Email Adress", type: .emailField)
     private let passwordTextField = ScootTextField(placeholderText: "Password", type: .passwordField)
+    private let authManager = AuthService.shared
+    private var email: String = ""
+    private var password: String = ""
     
     private let passwordVisibillityButton = UIButton(type: .custom)
     
@@ -165,6 +168,7 @@ private extension LoginVC {
     
     func configureEmailTF() {
         emailTextField.addTarget(self, action: #selector(emailDidChange), for: .editingChanged)
+        email = emailTextField.text ?? ""
     }
     
     func configurePasswordTF() {
@@ -177,6 +181,7 @@ private extension LoginVC {
         
         passwordTextField.setRightView(passwordVisibillityButton, padding: 16.25)
         passwordTextField.isSecureTextEntry = true
+        password = passwordTextField.text ?? ""
     }
     
     @objc private func loginTapped() {
@@ -187,11 +192,22 @@ private extension LoginVC {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.hideSpinner()
-//            self.errorMessageLabel.isHidden = false
-            let vc = VehicleListVC()
-            vc.modalPresentationStyle = .fullScreen
-//            self.present(vc, animated: true)
-            self.navigationController?.pushViewController(vc, animated: true)
+            
+            print(self.email)
+            print(self.password)
+            
+            if self.authManager.checkUserInfo(username: self.email, password: self.password) {
+                
+    //            self.errorMessageLabel.isHidden = false
+                let vc = VehicleListVC()
+                vc.modalPresentationStyle = .fullScreen
+    //            self.present(vc, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                self.errorMessageLabel.isHidden = false
+            }
+            
+           
         }
     }
     
@@ -214,6 +230,7 @@ private extension LoginVC {
         emailTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
         emailTextField.clearsOnBeginEditing = false
         
+        email = emailTextField.text ?? ""
         if emailTextField.text == "" {
             emailTextField.layer.borderColor = UIColor.systemGray.cgColor
         }
@@ -224,6 +241,7 @@ private extension LoginVC {
 //        passwordString = passwordTextField.text ?? ""
 //        passwordTextField.clearsOnBeginEditing = false
         print(passwordTextField.text)
+        password = passwordTextField.text ?? ""
         
         if passwordTextField.text == "" {
             passwordTextField.layer.borderColor = UIColor.systemGray.cgColor

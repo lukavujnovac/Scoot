@@ -46,6 +46,12 @@ struct VehicleModel {
     let id: String
 }
 
+struct UserModel {
+    let id = UUID().uuidString
+    let username: String
+    let password: String
+}
+
 struct MockData {
     static let vehicles = [
         VehicleModel(type: .scooter, status: .available, battery: 99, price: 150.0, location: "2.1", name: "meepo shuffle s (v4s)", image: "scooterImage", id: "1"),
@@ -58,4 +64,6 @@ struct MockData {
         VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "8"),
         VehicleModel(type: .skateboard, status: .available, battery: 99, price: 150.0, location: "2.1", name: "boundmotor flash", image: "skateboardImage", id: "9"),
     ]
+    
+    static let user = UserModel(username: "luka@gmail.com", password: "1234")
 }

@@ -171,7 +171,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func presentModal(vehicle: VehicleModel) {
-        let detailViewController = VehicleDetailVC(vehicle: vehicle)
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
 

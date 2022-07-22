@@ -43,10 +43,19 @@ class VehicleDetailVC: UIViewController {
         return button
     }()
     
-    var vehicle: VehicleModel
+    private let startRideButton: ScootButton = {
+        let button = ScootButton(backgruondColor: .scootPurple500!, title: "START RIDE", titleColor: .systemBackground)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+        
+        return button
+    }()
     
-    init(vehicle: VehicleModel) {
+    var vehicle: VehicleModel
+    let afterScan: Bool
+    
+    init(vehicle: VehicleModel, afterScan: Bool) {
         self.vehicle = vehicle
+        self.afterScan = afterScan
         super.init(nibName: nil, bundle: nil)
         print(vehicle.name)
     }
@@ -69,11 +78,17 @@ class VehicleDetailVC: UIViewController {
         configureButton()
     }
     
-    
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureConstraints()
+        
+        if afterScan {
+            scanButton.isHidden = true
+            startRideButton.isHidden = false
+        }else {
+            scanButton.isHidden = false
+            startRideButton.isHidden = true
+        }
     }
     
     private func addSubviews() {
@@ -81,7 +96,8 @@ class VehicleDetailVC: UIViewController {
         backgroundView.addSubview(contentView)
         contentView.addSubview(tableView)
         contentView.addSubview(scanButton)
-        contentView.bringSubviewToFront(scanButton)
+        contentView.addSubview(startRideButton)
+//        contentView.bringSubviewToFront(scanButton)
     }
     
     private func configureConstraints() {
@@ -100,6 +116,12 @@ class VehicleDetailVC: UIViewController {
         }
         
         scanButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-40)
+            $0.leading.trailing.equalToSuperview().inset(32)
+            $0.height.equalTo(56)
+        }
+        
+        startRideButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-40)
             $0.leading.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(56)

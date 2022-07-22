@@ -25,13 +25,14 @@
 		906191C728881D9E005EEF2A /* VehicleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191C528881D9E005EEF2A /* VehicleCell.swift */; };
 		906191CC288823B7005EEF2A /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191CB288823B7005EEF2A /* MockData.swift */; };
 		90666F8A28897B62007275E5 /* VehicleDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90666F8928897B62007275E5 /* VehicleDetailVC.swift */; };
+		908FEA9E288ABAEE007667BD /* UserDefaults + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908FEA9D288ABAEE007667BD /* UserDefaults + Extensions.swift */; };
+		908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908FEA9F288ABDA2007667BD /* AuthService.swift */; };
 		90995576288A233000F00AAF /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90995575288A233000F00AAF /* ScanVC.swift */; };
 		90A999EF28874693004AC862 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A999EE28874693004AC862 /* AppUtility.swift */; };
 		90CBA32A2886E3E50043ADEA /* UIColor + Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */; };
 		90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E959C12888AE37001C3F54 /* LocationCell.swift */; };
 		90E959C42888AE37001C3F54 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E959C22888AE37001C3F54 /* LocationCell.xib */; };
 		90E99EB728894C04007F955E /* VehicleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 906191C628881D9E005EEF2A /* VehicleCell.xib */; };
-		90E99EB928896ADF007F955E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E99EB828896ADF007F955E /* LocationService.swift */; };
 		90F5D2A92889F58800FB8AD3 /* CGRect + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F5D2A82889F58800FB8AD3 /* CGRect + Extensions.swift */; };
 		90FF8BBE2887341700724D32 /* UITextField + Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FF8BBD2887341700724D32 /* UITextField + Extenstions.swift */; };
 		90FF8BC0288735D300724D32 /* UIViewController + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FF8BBF288735D300724D32 /* UIViewController + Extensions.swift */; };
@@ -82,12 +83,13 @@
 		906191C628881D9E005EEF2A /* VehicleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VehicleCell.xib; sourceTree = "<group>"; };
 		906191CB288823B7005EEF2A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		90666F8928897B62007275E5 /* VehicleDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailVC.swift; sourceTree = "<group>"; };
+		908FEA9D288ABAEE007667BD /* UserDefaults + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults + Extensions.swift"; sourceTree = "<group>"; };
+		908FEA9F288ABDA2007667BD /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		90995575288A233000F00AAF /* ScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
 		90A999EE28874693004AC862 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extenstions.swift"; sourceTree = "<group>"; };
 		90E959C12888AE37001C3F54 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		90E959C22888AE37001C3F54 /* LocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
-		90E99EB828896ADF007F955E /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		90F5D2A82889F58800FB8AD3 /* CGRect + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect + Extensions.swift"; sourceTree = "<group>"; };
 		90FF8BBD2887341700724D32 /* UITextField + Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField + Extenstions.swift"; sourceTree = "<group>"; };
 		90FF8BBF288735D300724D32 /* UIViewController + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extensions.swift"; sourceTree = "<group>"; };
@@ -221,7 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				906191CB288823B7005EEF2A /* MockData.swift */,
-				90E99EB828896ADF007F955E /* LocationService.swift */,
+				908FEA9F288ABDA2007667BD /* AuthService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */,
+				908FEA9D288ABAEE007667BD /* UserDefaults + Extensions.swift */,
 				90FF8BBD2887341700724D32 /* UITextField + Extenstions.swift */,
 				90FF8BBF288735D300724D32 /* UIViewController + Extensions.swift */,
 				90F5D2A82889F58800FB8AD3 /* CGRect + Extensions.swift */,
@@ -553,8 +556,8 @@
 				906191CC288823B7005EEF2A /* MockData.swift in Sources */,
 				90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */,
 				007239A528844AB900BFEC1F /* LoginVC.swift in Sources */,
+				908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */,
 				90A999EF28874693004AC862 /* AppUtility.swift in Sources */,
-				90E99EB928896ADF007F955E /* LocationService.swift in Sources */,
 				906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */,
 				90F5D2A92889F58800FB8AD3 /* CGRect + Extensions.swift in Sources */,
 				9018BC812886EF57008DFDDA /* K.swift in Sources */,
@@ -564,6 +567,7 @@
 				90666F8A28897B62007275E5 /* VehicleDetailVC.swift in Sources */,
 				007239A328844AB900BFEC1F /* SceneDelegate.swift in Sources */,
 				90FF8BC0288735D300724D32 /* UIViewController + Extensions.swift in Sources */,
+				908FEA9E288ABAEE007667BD /* UserDefaults + Extensions.swift in Sources */,
 				90CBA32A2886E3E50043ADEA /* UIColor + Extenstions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

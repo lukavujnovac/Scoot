@@ -7,7 +7,6 @@
 
 import UIKit
 import AVFoundation
-import SwiftUI
 
 class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
@@ -40,9 +39,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         button.frame = CGRect(x: 160, y: 100, width: 30, height: 30)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
-        let origImage = UIImage(named: "x")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        button.setImage(tintedImage, for: .normal)
+        button.setImage(UIImage(named: "x"), for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.tintColor = .white
         button.backgroundColor = .black
@@ -165,19 +162,32 @@ extension ScanVC {
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         
         let path = CGMutablePath()
+        let framePath = CGMutablePath()
+        
+        framePath.addRoundedRect(in: CGRect(x: UIScreen.main.bounds.width / 2 - 151, y: UIScreen.main.bounds.height / 2 - 151, width: 302, height: 302), cornerWidth: 16, cornerHeight: 16)
+        framePath.closeSubpath()
         
         path.addRoundedRect(in: CGRect(x: UIScreen.main.bounds.width / 2 - 150, y: UIScreen.main.bounds.height / 2 - 150, width: 300, height: 300), cornerWidth: 16, cornerHeight: 16)
         path.closeSubpath()
         
-        path.addRect(CGRect(origin: .zero, size: overlayView.frame.size))
+        let size = CGSize(width: UIScreen.main.bounds.size.width + 10, height: UIScreen.main.bounds.size.height + 10)
+        path.addRect(CGRect(origin: .zero, size: size))
+//        path.addRect(CGRect(origin: CGPoint(x: UIScreen.main.bounds.size.width - 10, y: UIScreen.main.bounds.size.height - 10), size: size))
         
         let maskLayer = CAShapeLayer()
-        maskLayer.backgroundColor = UIColor.black.cgColor
+//        maskLayer.borderWidth = -10
         maskLayer.path = path
         maskLayer.fillRule = .evenOdd
-        
         overlayView.layer.mask = maskLayer
-        overlayView.clipsToBounds = true
+        overlayView.clipsToBounds = false
+        
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = framePath
+        borderLayer.lineWidth = 3
+        borderLayer.strokeColor = UIColor.white.cgColor
+        borderLayer.fillColor = UIColor.clear.cgColor
+        
+        overlayView.layer.addSublayer(borderLayer)
         
         return overlayView
     }
@@ -194,12 +204,23 @@ extension ScanVC {
             found(code: stringValue)
             
         }
-        
-        dismiss(animated: true)
+    }
+    
+    private func presentModal(vehicle: VehicleModel) {
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true)
+        let nav = UINavigationController(rootViewController: detailViewController)
+        nav.modalPresentationStyle = .overFullScreen
+
+//            if let sheet = nav.sheetPresentationController {
+//                sheet.detents = [.medium()]
+//            }
+            present(nav, animated: true, completion: nil)
     }
     
     func found(code: String) {
         print("otvori vozilo \(code)")
+        
+        presentModal(vehicle: VehicleModel(type: .scooter, status: .available, battery: 99, price: 130, location: "0", name: "meepo shuffle s (v4s)", image: "scooterImage", id: "3"))
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -233,7 +254,7 @@ extension ScanVC {
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .code39, .code128, .qr]
+            metadataOutput.metadataObjectTypes = [.qr]
         } else {
             failed()
             return
@@ -272,7 +293,6 @@ extension ScanVC {
                     print(error)
                 }
             }
-
             device.unlockForConfiguration()
         } catch {
             print(error)
