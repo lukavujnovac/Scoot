@@ -185,23 +185,15 @@ private extension LoginVC {
     }
     
     @objc private func loginTapped() {
-        print("login")
-//        passwordTextField.layer.borderColor = UIColor.systemRed.cgColor
-//        emailTextField.layer.borderColor = UIColor.systemRed.cgColor
         showSpinner()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.hideSpinner()
             
-            print(self.email)
-            print(self.password)
-            
             if self.authManager.checkUserInfo(username: self.email, password: self.password) {
                 
-    //            self.errorMessageLabel.isHidden = false
                 let vc = VehicleListVC()
                 vc.modalPresentationStyle = .fullScreen
-    //            self.present(vc, animated: true)
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 self.errorMessageLabel.isHidden = false
@@ -238,9 +230,6 @@ private extension LoginVC {
     
     @objc func passwordDidChange() {
         passwordTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
-//        passwordString = passwordTextField.text ?? ""
-//        passwordTextField.clearsOnBeginEditing = false
-        print(passwordTextField.text)
         password = passwordTextField.text ?? ""
         
         if passwordTextField.text == "" {

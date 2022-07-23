@@ -152,7 +152,6 @@ extension ScanVC {
     }
     
     @objc private func didTapToggleFlash() {
-        print("toggle flash")
         toggleFlash()
     }
     
@@ -172,10 +171,8 @@ extension ScanVC {
         
         let size = CGSize(width: UIScreen.main.bounds.size.width + 10, height: UIScreen.main.bounds.size.height + 10)
         path.addRect(CGRect(origin: .zero, size: size))
-//        path.addRect(CGRect(origin: CGPoint(x: UIScreen.main.bounds.size.width - 10, y: UIScreen.main.bounds.size.height - 10), size: size))
         
         let maskLayer = CAShapeLayer()
-//        maskLayer.borderWidth = -10
         maskLayer.path = path
         maskLayer.fillRule = .evenOdd
         overlayView.layer.mask = maskLayer
@@ -210,11 +207,7 @@ extension ScanVC {
         let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
-
-//            if let sheet = nav.sheetPresentationController {
-//                sheet.detents = [.medium()]
-//            }
-            present(nav, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
     
     func found(code: String) {
@@ -228,7 +221,6 @@ extension ScanVC {
     }
     
     func reStart(){
-        //view.backgroundColor = UIColor.black
         captureSession = AVCaptureSession()
         captureSession.sessionPreset = .high
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -265,8 +257,6 @@ extension ScanVC {
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
         
-        //            view.bringSubviewToFront(grView)
-        //            view.bringSubviewToFront(cancelBtn)
         captureSession.startRunning()
     }
     

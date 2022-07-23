@@ -17,28 +17,12 @@ class LocationCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-//        configureConstraints()
     }
     
     func configure(with location: String) {
@@ -49,17 +33,4 @@ class LocationCell: UITableViewCell {
         locationLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         locationLabel.textColor = .label
     }
-    
-    private func configureConstraints() {
-        locationPinImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.top.bottom.equalToSuperview().inset(11)
-        }
-        
-        locationLabel.snp.makeConstraints {
-            $0.leading.equalTo(locationPinImageView.snp.trailing).offset(16)
-            $0.top.bottom.equalToSuperview().inset(21)
-        }
-    }
-    
 }

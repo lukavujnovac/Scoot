@@ -25,6 +25,7 @@
 		906191C728881D9E005EEF2A /* VehicleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191C528881D9E005EEF2A /* VehicleCell.swift */; };
 		906191CC288823B7005EEF2A /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191CB288823B7005EEF2A /* MockData.swift */; };
 		90666F8A28897B62007275E5 /* VehicleDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90666F8928897B62007275E5 /* VehicleDetailVC.swift */; };
+		906A7BCF288B42A200BA4021 /* LocationListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906A7BCE288B42A200BA4021 /* LocationListVC.swift */; };
 		908FEA9E288ABAEE007667BD /* UserDefaults + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908FEA9D288ABAEE007667BD /* UserDefaults + Extensions.swift */; };
 		908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908FEA9F288ABDA2007667BD /* AuthService.swift */; };
 		90995576288A233000F00AAF /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90995575288A233000F00AAF /* ScanVC.swift */; };
@@ -83,6 +84,7 @@
 		906191C628881D9E005EEF2A /* VehicleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VehicleCell.xib; sourceTree = "<group>"; };
 		906191CB288823B7005EEF2A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		90666F8928897B62007275E5 /* VehicleDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailVC.swift; sourceTree = "<group>"; };
+		906A7BCE288B42A200BA4021 /* LocationListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListVC.swift; sourceTree = "<group>"; };
 		908FEA9D288ABAEE007667BD /* UserDefaults + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults + Extensions.swift"; sourceTree = "<group>"; };
 		908FEA9F288ABDA2007667BD /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		90995575288A233000F00AAF /* ScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				906191C02887FB4C005EEF2A /* VehicleListVC.swift */,
 				90666F8928897B62007275E5 /* VehicleDetailVC.swift */,
 				90995575288A233000F00AAF /* ScanVC.swift */,
+				906A7BCE288B42A200BA4021 /* LocationListVC.swift */,
 				906191C428881D76005EEF2A /* Cells */,
 			);
 			path = Scenes;
@@ -559,6 +562,7 @@
 				908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */,
 				90A999EF28874693004AC862 /* AppUtility.swift in Sources */,
 				906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */,
+				906A7BCF288B42A200BA4021 /* LocationListVC.swift in Sources */,
 				90F5D2A92889F58800FB8AD3 /* CGRect + Extensions.swift in Sources */,
 				9018BC812886EF57008DFDDA /* K.swift in Sources */,
 				90995576288A233000F00AAF /* ScanVC.swift in Sources */,

@@ -55,11 +55,20 @@ class VehicleListVC: UIViewController {
         title = "Available vehicles"
         navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
+    }
+    
+    @objc func logOutTapped() {
+        UserDefaults.standard.setIsLoggedIn(value: false)
+        let vc = LoginVC()
+        vc.modalPresentationStyle = .fullScreen
+        
+        present(vc, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //        tableView.frame = view.frame.insetBy(dx: 0.0, dy: 100.0)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -68,10 +77,6 @@ class VehicleListVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        //        tableView.frame = view.bounds
-        //        let footerView = UIView()
-        //        footerView.frame.size.height = 200
-        //        tableView.tableFooterView = footerView
         configureConstraints()
     }
     
@@ -79,16 +84,6 @@ class VehicleListVC: UIViewController {
         super.viewDidAppear(true)
         
         setupLocationManager()
-        
-//        UIView.animate(withDuration: 1, delay: 0.5, options: .curveEaseIn) {
-//            let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!
-//            let vc = ScanVC()
-//            
-//            vc.view.frame = window.bounds
-//            window.addSubview(vc.view)
-//        }completion: { st in
-//            
-//        }
     }
     
     private func setupLocationManager() {
@@ -128,8 +123,6 @@ private extension VehicleListVC {
     }
     
     @objc private func scanTapped() {
-        print("scan")
-//        navigationController?.pushViewController(ScanVC(), animated: true)
         let vc = ScanVC()
         vc.modalPresentationStyle = .fullScreen
         
@@ -143,7 +136,6 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //        return indexPath.row == 0 ? 58 : UITableView.automaticDimension
         return UITableView.automaticDimension
     }
     
@@ -156,29 +148,26 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         cell.configure(with: vehicles[indexPath.row])
-//        cell.imageWidthConstraint.constant = indexPath.row % 2 == 0 ? 70 : 0
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             tableView.deselectRow(at: indexPath, animated: true)
+            let vc = LocationListVC()
+            vc.modalPresentationStyle = .formSheet
+            present(vc, animated: true)
         }else {
             tableView.deselectRow(at: indexPath, animated: true)
             presentModal(vehicle: self.vehicles[indexPath.row])
         }
-        //            navigationController?.pushViewController(vc, animated: true)
     }
     
     private func presentModal(vehicle: VehicleModel) {
         let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
-
-//            if let sheet = nav.sheetPresentationController {
-//                sheet.detents = [.medium()]
-//            }
-            present(nav, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
     
     func showSpinnerFooter() -> UIView {
@@ -210,8 +199,6 @@ extension VehicleListVC: CLLocationManagerDelegate {
         let locationLat = "\(first.coordinate.latitude)"
         
         getAddressFromLatLon(pdblLatitude: locationLat, withLongitude: locationLon)
-        //        locationString = "\(first.coordinate.longitude) / \(first.coordinate.latitude)"
-//        print(locationString)
         tableView.reloadData()
     }
     
@@ -238,12 +225,6 @@ extension VehicleListVC: CLLocationManagerDelegate {
             
             if pm.count > 0 {
                 let pm = placemarks![0]
-                //                        print(pm.country)
-                //                        print(pm.locality)
-                //                        print(pm.subLocality)
-                //                        print(pm.thoroughfare)
-                //                        print(pm.postalCode)
-                //                        print(pm.subThoroughfare)
                 var addressString : String = ""
                 //ulica
                 if pm.thoroughfare != nil {

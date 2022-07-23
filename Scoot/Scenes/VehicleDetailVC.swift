@@ -97,7 +97,6 @@ class VehicleDetailVC: UIViewController {
         contentView.addSubview(tableView)
         contentView.addSubview(scanButton)
         contentView.addSubview(startRideButton)
-//        contentView.bringSubviewToFront(scanButton)
     }
     
     private func configureConstraints() {
@@ -167,8 +166,6 @@ private extension VehicleDetailVC {
     
     @objc func didTapScan() {
         print("scan")
-//        self.dismiss(animated: true)
-//        navigationController?.pushViewController(ScanVC(), animated: true)
         let vc = ScanVC()
         vc.modalPresentationStyle = .fullScreen
         
