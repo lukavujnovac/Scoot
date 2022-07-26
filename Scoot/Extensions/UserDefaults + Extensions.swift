@@ -16,4 +16,15 @@ extension UserDefaults {
     func isLoggedIn() -> Bool {
         return bool(forKey: "isLoggedIn")
     }
+    
+    func setLocation(location: String) {
+        set(location, forKey: "location")
+        synchronize()
+    }
+    
+    func getLocation() -> String {
+        return string(forKey: "location") ?? "no location"
+    }
+    
+//    func getCurrentLocation() 
 }

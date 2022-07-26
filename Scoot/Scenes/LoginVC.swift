@@ -77,6 +77,9 @@ class LoginVC: UIViewController {
         configureLoginButton()
         self.hideKeyboardWhenTappedAround()
         
+        
+        navigationItem.hidesBackButton = true
+        
         addViews()
     }
     

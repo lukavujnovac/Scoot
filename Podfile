@@ -11,6 +11,7 @@ target 'Scoot' do
   pod 'Kingfisher', '~> 7.0'
   pod 'PromiseKit/Alamofire', '~> 6.0'
   pod "PromiseKit", "~> 6.8"
+  pod 'FloatingPanel'
 
   target 'ScootTests' do
     inherit! :search_paths

@@ -17,6 +17,9 @@
 		007239C428844ABA00BFEC1F /* ScootUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007239C328844ABA00BFEC1F /* ScootUITestsLaunchTests.swift */; };
 		31EB1A7D4D6A942146348C15 /* Pods_Scoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6AA7F9B8D8DB4F174E8B8B /* Pods_Scoot.framework */; };
 		42A046F1D540EFBED5CC490C /* Pods_Scoot_ScootUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33CB53782B17353612723F4B /* Pods_Scoot_ScootUITests.framework */; };
+		5F3CEB3E288FE93A00DD6F15 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */; };
+		5F673084288C3423002DFB0C /* CurrentLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F673082288C3423002DFB0C /* CurrentLocationCell.swift */; };
+		5F673085288C3423002DFB0C /* CurrentLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F673083288C3423002DFB0C /* CurrentLocationCell.xib */; };
 		9018BC812886EF57008DFDDA /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9018BC802886EF57008DFDDA /* K.swift */; };
 		906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191BC2887EE9D005EEF2A /* ScootTextField.swift */; };
 		906191BF2887F241005EEF2A /* ScootButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191BE2887F241005EEF2A /* ScootButton.swift */; };
@@ -74,6 +77,9 @@
 		33CB53782B17353612723F4B /* Pods_Scoot_ScootUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Scoot_ScootUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF57509F520357B2C08427A /* Pods-ScootTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScootTests.release.xcconfig"; path = "Target Support Files/Pods-ScootTests/Pods-ScootTests.release.xcconfig"; sourceTree = "<group>"; };
 		450BE8F5DED30B1E1E074D69 /* Pods-Scoot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Scoot.release.xcconfig"; path = "Target Support Files/Pods-Scoot/Pods-Scoot.release.xcconfig"; sourceTree = "<group>"; };
+		5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5F673082288C3423002DFB0C /* CurrentLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationCell.swift; sourceTree = "<group>"; };
+		5F673083288C3423002DFB0C /* CurrentLocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrentLocationCell.xib; sourceTree = "<group>"; };
 		8F43A59A856BBFF5B54ACE2B /* Pods-Scoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Scoot.debug.xcconfig"; path = "Target Support Files/Pods-Scoot/Pods-Scoot.debug.xcconfig"; sourceTree = "<group>"; };
 		9018BC802886EF57008DFDDA /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		906191BC2887EE9D005EEF2A /* ScootTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScootTextField.swift; sourceTree = "<group>"; };
@@ -208,7 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				90E959C52888AE41001C3F54 /* VehicleCell */,
-				90E959C62888AE4A001C3F54 /* LocationCell */,
+				90E959C62888AE4A001C3F54 /* LocationCells */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 			children = (
 				906191CB288823B7005EEF2A /* MockData.swift */,
 				908FEA9F288ABDA2007667BD /* AuthService.swift */,
+				5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -272,13 +279,15 @@
 			path = VehicleCell;
 			sourceTree = "<group>";
 		};
-		90E959C62888AE4A001C3F54 /* LocationCell */ = {
+		90E959C62888AE4A001C3F54 /* LocationCells */ = {
 			isa = PBXGroup;
 			children = (
 				90E959C12888AE37001C3F54 /* LocationCell.swift */,
 				90E959C22888AE37001C3F54 /* LocationCell.xib */,
+				5F673082288C3423002DFB0C /* CurrentLocationCell.swift */,
+				5F673083288C3423002DFB0C /* CurrentLocationCell.xib */,
 			);
-			path = LocationCell;
+			path = LocationCells;
 			sourceTree = "<group>";
 		};
 		90E99EB628894B10007F955E /* initialization */ = {
@@ -425,6 +434,7 @@
 				90E99EB728894C04007F955E /* VehicleCell.xib in Resources */,
 				906191C3288803E4005EEF2A /* Main.storyboard in Resources */,
 				007239AD28844ABA00BFEC1F /* LaunchScreen.storyboard in Resources */,
+				5F673085288C3423002DFB0C /* CurrentLocationCell.xib in Resources */,
 				007239AA28844ABA00BFEC1F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,6 +570,7 @@
 				90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */,
 				007239A528844AB900BFEC1F /* LoginVC.swift in Sources */,
 				908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */,
+				5F3CEB3E288FE93A00DD6F15 /* LocationManager.swift in Sources */,
 				90A999EF28874693004AC862 /* AppUtility.swift in Sources */,
 				906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */,
 				906A7BCF288B42A200BA4021 /* LocationListVC.swift in Sources */,
@@ -569,6 +580,7 @@
 				007239A128844AB900BFEC1F /* AppDelegate.swift in Sources */,
 				906191BF2887F241005EEF2A /* ScootButton.swift in Sources */,
 				90666F8A28897B62007275E5 /* VehicleDetailVC.swift in Sources */,
+				5F673084288C3423002DFB0C /* CurrentLocationCell.swift in Sources */,
 				007239A328844AB900BFEC1F /* SceneDelegate.swift in Sources */,
 				90FF8BC0288735D300724D32 /* UIViewController + Extensions.swift in Sources */,
 				908FEA9E288ABAEE007667BD /* UserDefaults + Extensions.swift in Sources */,

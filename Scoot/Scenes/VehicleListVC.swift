@@ -15,6 +15,7 @@ class VehicleListVC: UIViewController {
         table.register(UINib(nibName: "VehicleCell", bundle: nil), forCellReuseIdentifier: VehicleCell.identifier)
         table.register(UINib(nibName: "LocationCell", bundle: nil), forCellReuseIdentifier: LocationCell.identifier)
         table.contentInset.bottom = 100
+        table.showsVerticalScrollIndicator = false
         
         return table
     }()
@@ -57,14 +58,19 @@ class VehicleListVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
+        
     }
     
     @objc func logOutTapped() {
         UserDefaults.standard.setIsLoggedIn(value: false)
         let vc = LoginVC()
-        vc.modalPresentationStyle = .fullScreen
+//        vc.modalPresentationStyle = .fullScreen
         
-        present(vc, animated: true)
+//        present(vc, animated: true)
+        
+        navigationController?.pushViewController(vc , animated: true)
+        
+//        navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -142,7 +148,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: LocationCell.identifier, for: indexPath) as? LocationCell else {fatalError()}
-            cell.configure(with: locationString)
+            cell.configure(with: UserDefaults.standard.getLocation())
             return cell
         }
         
@@ -156,11 +162,13 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             let vc = LocationListVC()
             vc.modalPresentationStyle = .formSheet
+            
             present(vc, animated: true)
         }else {
             tableView.deselectRow(at: indexPath, animated: true)
             presentModal(vehicle: self.vehicles[indexPath.row])
         }
+        tableView.reloadData()
     }
     
     private func presentModal(vehicle: VehicleModel) {
@@ -193,60 +201,13 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
 
 extension VehicleListVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
         guard let first = locations.first else {return}
-        
         let locationLon = "\(first.coordinate.longitude)"
         let locationLat = "\(first.coordinate.latitude)"
         
-        getAddressFromLatLon(pdblLatitude: locationLat, withLongitude: locationLon)
+        LocationManager.shared.getAddressFromLatLon(pdblLatitude: locationLat, withLongitude: locationLon)
         tableView.reloadData()
-    }
-    
-    func getAddressFromLatLon(pdblLatitude: String, withLongitude pdblLongitude: String){
-        var center : CLLocationCoordinate2D = CLLocationCoordinate2D()
-        let lat: Double = Double("\(pdblLatitude)")!
-        
-        let lon: Double = Double("\(pdblLongitude)")!
-        
-        let ceo: CLGeocoder = CLGeocoder()
-        center.latitude = lat
-        center.longitude = lon
-        
-        let loc: CLLocation = CLLocation(latitude:center.latitude, longitude: center.longitude)
-        
-        
-        ceo.reverseGeocodeLocation(loc, completionHandler:
-                                    {(placemarks, error) in
-            if (error != nil)
-            {
-                print("reverse geodcode fail: \(error!.localizedDescription)")
-            }
-            let pm = placemarks! as [CLPlacemark]
-            
-            if pm.count > 0 {
-                let pm = placemarks![0]
-                var addressString : String = ""
-                //ulica
-                if pm.thoroughfare != nil {
-                    addressString += pm.thoroughfare! + ", "
-                }
-                //broj ulice
-                if pm.subThoroughfare != nil {
-                    addressString += pm.subThoroughfare! + ", "
-                }
-                //grad
-                if pm.locality != nil {
-                    addressString += pm.locality! + ", "
-                }
-                if pm.country != nil {
-                    addressString += pm.country! + ", "
-                }
-                if pm.postalCode != nil {
-                    addressString += pm.postalCode! + " "
-                }
-                self.locationString = addressString
-            }
-        })
     }
 }
 
