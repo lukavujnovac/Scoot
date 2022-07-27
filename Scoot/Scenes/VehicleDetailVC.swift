@@ -75,7 +75,8 @@ class VehicleDetailVC: UIViewController {
         contentClickListener()
         addSubviews()
         
-        configureButton()
+        configureScanButton()
+        configureStartButton()
     }
     
     override func viewDidLayoutSubviews() {
@@ -172,7 +173,17 @@ private extension VehicleDetailVC {
         present(vc, animated: true)
     }
     
-    func configureButton() {
+    @objc private func didTapStart() {
+        print("start ride")
+        let vc = RideInProgressVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func configureScanButton() {
         scanButton.addTarget(self, action: #selector(didTapScan), for: .touchUpInside)
+    }
+    
+    func configureStartButton() {
+        startRideButton.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
     }
 }

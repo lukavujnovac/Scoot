@@ -64,13 +64,13 @@ class VehicleListVC: UIViewController {
     @objc func logOutTapped() {
         UserDefaults.standard.setIsLoggedIn(value: false)
         let vc = LoginVC()
-//        vc.modalPresentationStyle = .fullScreen
+        //        vc.modalPresentationStyle = .fullScreen
         
-//        present(vc, animated: true)
+        //        present(vc, animated: true)
         
         navigationController?.pushViewController(vc , animated: true)
         
-//        navigationController?.popToRootViewController(animated: true)
+        //        navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -160,9 +160,11 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             tableView.deselectRow(at: indexPath, animated: true)
-            let vc = LocationListVC()
+            let vc = LocationFinderVC()
             vc.modalPresentationStyle = .formSheet
-            
+            vc.didSelectLocation = { [weak self] in
+                self?.tableView.reloadData()
+            }
             present(vc, animated: true)
         }else {
             tableView.deselectRow(at: indexPath, animated: true)
