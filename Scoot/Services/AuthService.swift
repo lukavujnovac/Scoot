@@ -6,11 +6,17 @@
 //
 
 import Foundation
+import PromiseKit
 
 class AuthService {
     static let shared = AuthService()
     
     let user = MockData.user
+    let loginUrl = "https://scoot-ws.proficodev.com/users/login"
+    
+//    func getAccessToken() -> String? {
+//        
+//    }
     
     public func checkUserInfo(username: String, password: String) -> Bool {
         if user.username == username && user.password == password {
@@ -23,4 +29,28 @@ class AuthService {
             return false
         }
     }
+    
+    //Josipa@gmail.com
+    //Andrej123
+    
+    public func loginUser(email: String, pass: String) -> Promise<LoginResponse> {
+        let params: Parameters = [
+            "email" : email,
+            "password" : pass
+//            "accessToken": getAccessToken()
+        ] as! [String:String]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "Accept" : "application/json"
+        ]
+        return Alamofire.request(self.loginUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
+    }
 }
+
+
+
+struct LoginResponse: Codable {
+    let accessToken: String?
+}
+

@@ -50,14 +50,14 @@ class VehicleDetailVC: UIViewController {
         return button
     }()
     
-    var vehicle: VehicleModel
+    var vehicle: VehicleResponse
     let afterScan: Bool
     
-    init(vehicle: VehicleModel, afterScan: Bool) {
+    init(vehicle: VehicleResponse, afterScan: Bool) {
         self.vehicle = vehicle
         self.afterScan = afterScan
         super.init(nibName: nil, bundle: nil)
-        print(vehicle.name)
+        print(vehicle.vehicleName)
     }
     
     required init?(coder: NSCoder) {

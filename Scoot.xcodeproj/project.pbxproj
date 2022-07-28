@@ -37,6 +37,7 @@
 		908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908FEA9F288ABDA2007667BD /* AuthService.swift */; };
 		90995576288A233000F00AAF /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90995575288A233000F00AAF /* ScanVC.swift */; };
 		90A999EF28874693004AC862 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A999EE28874693004AC862 /* AppUtility.swift */; };
+		90AC7C892892C30F003ADBA5 /* ApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AC7C882892C30F003ADBA5 /* ApiCaller.swift */; };
 		90CBA32A2886E3E50043ADEA /* UIColor + Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */; };
 		90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E959C12888AE37001C3F54 /* LocationCell.swift */; };
 		90E959C42888AE37001C3F54 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E959C22888AE37001C3F54 /* LocationCell.xib */; };
@@ -103,6 +104,7 @@
 		908FEA9F288ABDA2007667BD /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		90995575288A233000F00AAF /* ScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
 		90A999EE28874693004AC862 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		90AC7C882892C30F003ADBA5 /* ApiCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCaller.swift; sourceTree = "<group>"; };
 		90CBA3292886E3E50043ADEA /* UIColor + Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extenstions.swift"; sourceTree = "<group>"; };
 		90E959C12888AE37001C3F54 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		90E959C22888AE37001C3F54 /* LocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				906191CB288823B7005EEF2A /* MockData.swift */,
 				908FEA9F288ABDA2007667BD /* AuthService.swift */,
 				5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */,
+				90AC7C882892C30F003ADBA5 /* ApiCaller.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				906191C12887FB4C005EEF2A /* VehicleListVC.swift in Sources */,
 				906191CC288823B7005EEF2A /* MockData.swift in Sources */,
 				90E959C32888AE37001C3F54 /* LocationCell.swift in Sources */,
+				90AC7C892892C30F003ADBA5 /* ApiCaller.swift in Sources */,
 				007239A528844AB900BFEC1F /* LoginVC.swift in Sources */,
 				5F1A43CA2891F95400878F28 /* UIView + Extensions.swift in Sources */,
 				908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */,

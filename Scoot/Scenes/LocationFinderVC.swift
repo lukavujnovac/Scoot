@@ -95,7 +95,7 @@ extension LocationFinderVC: UITableViewDelegate {
         search.start { (response, error) in
             //            guard let coordinate = response?.mapItems[0].placemark.coordinate else { return }            
             //            guard let name = response?.mapItems[0].name else { return }
-            let locationString = "\(self.searchResults[0].title) \(self.searchResults[0].subtitle)"
+            let locationString = "\(self.searchResults[indexPath.row - 1].title) \(self.searchResults[indexPath.row - 1].subtitle)"
             UserDefaults.standard.setLocation(location: locationString)
             //            let lat = coordinate.latitude
             //            let lon = coordinate.longitude

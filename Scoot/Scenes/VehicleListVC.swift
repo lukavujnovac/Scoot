@@ -37,6 +37,8 @@ class VehicleListVC: UIViewController {
     }()
     
     let vehicles = MockData.vehicles
+    let apiCaller = ApiCaller.shared
+    var vehicleModels: [VehicleResponse] = []
     
     var manager: CLLocationManager?
     var locationString: String = "no location"
@@ -58,6 +60,16 @@ class VehicleListVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
+        
+        showSpinner()
+        apiCaller.fetchVehicles().done { response in
+            self.vehicleModels = response
+            self.tableView.reloadData()
+        }.catch { error in
+            print(error)
+        }.finally {
+            self.hideSpinner()
+        }
         
     }
     
@@ -138,7 +150,7 @@ private extension VehicleListVC {
 
 extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        vehicles.count
+        vehicleModels.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -153,7 +165,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
-        cell.configure(with: vehicles[indexPath.row])
+        cell.configure(with: vehicleModels[indexPath.row])
         return cell
     }
     
@@ -168,12 +180,12 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
             present(vc, animated: true)
         }else {
             tableView.deselectRow(at: indexPath, animated: true)
-            presentModal(vehicle: self.vehicles[indexPath.row])
+            presentModal(vehicle: self.vehicleModels[indexPath.row])
         }
         tableView.reloadData()
     }
     
-    private func presentModal(vehicle: VehicleModel) {
+    private func presentModal(vehicle: VehicleResponse) {
         let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen

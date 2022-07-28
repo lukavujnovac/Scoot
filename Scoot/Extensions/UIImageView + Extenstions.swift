@@ -10,7 +10,7 @@ import UIKit
 extension UIImageView {
     func rotate() {
         let rotation: CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotation.toValue = NSNumber(value: Double.pi / 30)
+        rotation.toValue = NSNumber(value: -Double.pi / 10)
         rotation.duration = 1
         rotation.isCumulative = true
         rotation.repeatCount = Float.greatestFiniteMagnitude

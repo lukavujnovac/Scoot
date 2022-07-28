@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class VehicleCell: UITableViewCell {
 
@@ -32,17 +33,18 @@ class VehicleCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func configure(with vehicle: VehicleModel) {
-        vehicleImage.image = UIImage(named: vehicle.image)
+    func configure(with vehicle: VehicleResponse) {
+        
+        if let url = URL(string: vehicle.avatar) {
+            vehicleImage.kf.setImage(with: url)
+        }
 
-        vehicleName.text = vehicle.name.uppercased()
-
-        vehicleTypeLabel.text = vehicle.type.string.uppercased()
-
-        batteryPercentage.text = "\(vehicle.battery)%"
+        vehicleName.text = vehicle.vehicleName
+        vehicleTypeLabel.text = vehicle.vehicleType
+        batteryPercentage.text = vehicle.vehicleBattery
         batteryIndicatorView.layer.cornerRadius = 4
 
-        distanceLabel.text = "\(vehicle.location) km away"
+        distanceLabel.text = "SAM IZRACUNAT"
         distanceIndicatorView.layer.cornerRadius = 4
     }
 }

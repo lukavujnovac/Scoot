@@ -203,7 +203,7 @@ extension ScanVC {
         }
     }
     
-    private func presentModal(vehicle: VehicleModel) {
+    private func presentModal(vehicle: VehicleResponse) {
         let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
@@ -213,7 +213,7 @@ extension ScanVC {
     func found(code: String) {
         print("otvori vozilo \(code)")
         
-        presentModal(vehicle: VehicleModel(type: .scooter, status: .available, battery: 99, price: 130, location: "0", name: "meepo shuffle s (v4s)", image: "scooterImage", id: "3"))
+        presentModal(vehicle: VehicleResponse(id: 1, avatar: "https://scoot-ws.proficodev.com/static/scooter.png", vehicleName: "Meepo Shuffle S 4", vehicleType: "Scooter", vehicleId: "lksjf", vehicleStatus: true, vehicleBattery: "90%", location: LocationResponse(locationPoint: LocationInfo(lat: 10, long: 10, locationString: "Makarska 26"))))
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

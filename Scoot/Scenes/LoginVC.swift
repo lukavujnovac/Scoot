@@ -65,6 +65,7 @@ class LoginVC: UIViewController {
     private let loginButton = ScootButton(backgruondColor: UIColor.scootPurple500!, title: "Login", titleColor: .systemBackground)
     
     private var passwordVisibility: Bool = true
+    private var isLoading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +77,6 @@ class LoginVC: UIViewController {
         configurePasswordTF()
         configureLoginButton()
         self.hideKeyboardWhenTappedAround()
-        
         
         navigationItem.hidesBackButton = true
         
@@ -188,21 +188,22 @@ private extension LoginVC {
     }
     
     @objc private func loginTapped() {
+        if isLoading { return }
+        isLoading = true
         showSpinner()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.hideSpinner()
-            
-            if self.authManager.checkUserInfo(username: self.email, password: self.password) {
-                
-                let vc = VehicleListVC()
-                vc.modalPresentationStyle = .fullScreen
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else {
+        authManager.loginUser(email: self.email, pass: self.password).done { response in
+            guard let token = response.accessToken else {
                 self.errorMessageLabel.isHidden = false
+                return
             }
-            
-           
+            self.navigationController?.pushViewController(VehicleListVC(), animated: true)
+            UserDefaults.standard.setIsLoggedIn(value: true)
+        }.catch { error in
+            print(error)
+            self.errorMessageLabel.isHidden = false
+        }.finally {
+            self.hideSpinner()
+            self.isLoading = false
         }
     }
     
