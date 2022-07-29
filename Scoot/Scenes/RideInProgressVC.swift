@@ -64,7 +64,7 @@ class RideInProgressVC: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-//        navigationItem.hidesBackButton = true
+        navigationItem.hidesBackButton = true
         
         configureTimer()
         
@@ -80,8 +80,16 @@ class RideInProgressVC: UIViewController {
             sliderLabel.textColor = .systemBackground
             titleLabel.text = "COMPLETED!"
             timer.invalidate()
-            timerCount = 0
+//            timerCount = 0
             slider.isEnabled = false
+            
+            UserDefaults.standard.setTimer(value: timerLabel.text ?? "0s")
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.navigationController?.pushViewController(RideCompletedVC(), animated: true)
+            
+            ApiCaller.shared.cancelRide(vehicleId: "")
+//            }
             
         } else {
             sliderLabel.text = "SLIDE TO FINISH RIDE"

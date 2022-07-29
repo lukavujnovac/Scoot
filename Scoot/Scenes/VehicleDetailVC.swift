@@ -30,6 +30,7 @@ class VehicleDetailVC: UIViewController {
         table.register(UINib(nibName: "VehicleCell", bundle: nil), forCellReuseIdentifier: VehicleCell.identifier)
         table.contentInset.bottom = 100
         table.separatorStyle = .none
+        table.isScrollEnabled = false
         
         return table
     }()
@@ -50,8 +51,8 @@ class VehicleDetailVC: UIViewController {
         return button
     }()
     
-    var vehicle: VehicleResponse
-    let afterScan: Bool
+    private var vehicle: VehicleResponse
+    private let afterScan: Bool
     
     init(vehicle: VehicleResponse, afterScan: Bool) {
         self.vehicle = vehicle
@@ -141,6 +142,7 @@ extension VehicleDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         cell.configure(with: vehicle)
+        cell.distanceLabel.text = LocationManager.shared.getDistance(for: vehicle)
         return cell
     }
 }
@@ -177,6 +179,7 @@ private extension VehicleDetailVC {
         print("start ride")
         let vc = RideInProgressVC()
         navigationController?.pushViewController(vc, animated: true)
+        ApiCaller.shared.startRide(vehicleId: vehicle.vehicleId)
     }
     
     func configureScanButton() {
@@ -185,5 +188,6 @@ private extension VehicleDetailVC {
     
     func configureStartButton() {
         startRideButton.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
+        
     }
 }

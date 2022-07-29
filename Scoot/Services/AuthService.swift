@@ -44,6 +44,7 @@ class AuthService {
             "Content-Type": "application/json",
             "Accept" : "application/json"
         ]
+        
         return Alamofire.request(self.loginUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }
 }

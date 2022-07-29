@@ -10,8 +10,8 @@ import AVFoundation
 
 class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
-    var captureSession: AVCaptureSession!
-    var previewLayer: AVCaptureVideoPreviewLayer!
+    private var captureSession: AVCaptureSession!
+    private var previewLayer: AVCaptureVideoPreviewLayer!
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -70,6 +70,8 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         navigationItem.hidesBackButton = true
         
         view.isUserInteractionEnabled = true
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -96,8 +98,8 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
-extension ScanVC {
-    private func addSubviews() {
+private extension ScanVC {
+    func addSubviews() {
         let overlay = createOverlay(frame: view.frame, xOffset: view.frame.midX, yOffset: view.frame.midY, radius: 50.0)
         view.bringSubviewToFront(overlay)
         view.addSubview(overlay)
@@ -115,7 +117,7 @@ extension ScanVC {
         view.bringSubviewToFront(flashButton)
     }
     
-    private func configureConstraints() {
+    func configureConstraints() {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(98)
             $0.centerX.equalToSuperview()
@@ -139,19 +141,19 @@ extension ScanVC {
         }
     }
     
-    private func configureExitButton() {
+    func configureExitButton() {
         exitButton.addTarget(self, action: #selector(didTapExit), for: .touchUpInside)
     }
     
-    @objc private func didTapExit() {
+    @objc func didTapExit() {
         self.dismiss(animated: true)
     }
     
-    private func configureFlashButton() {
+    func configureFlashButton() {
         flashButton.addTarget(self, action: #selector(didTapToggleFlash), for: .touchUpInside)
     }
     
-    @objc private func didTapToggleFlash() {
+    @objc func didTapToggleFlash() {
         toggleFlash()
     }
     
@@ -213,14 +215,16 @@ extension ScanVC {
     func found(code: String) {
         print("otvori vozilo \(code)")
         
-        presentModal(vehicle: VehicleResponse(id: 1, avatar: "https://scoot-ws.proficodev.com/static/scooter.png", vehicleName: "Meepo Shuffle S 4", vehicleType: "Scooter", vehicleId: "lksjf", vehicleStatus: true, vehicleBattery: "90%", location: LocationResponse(locationPoint: LocationInfo(lat: 10, long: 10, locationString: "Makarska 26"))))
+//        ApiCaller.shared.startRide(vehicleId: code)
+        
+        presentModal(vehicle: VehicleResponse(id: 1, avatar: "https://scoot-ws.proficodev.com/static/scooter.png", vehicleName: "Meepo Shuffle S 4", vehicleType: "Scooter", vehicleId: "#VHC-SC-MP4", vehicleStatus: true, vehicleBattery: "90%", location: LocationResponse(locationPoint: LocationInfo(lat: 10, long: 10, locationString: "Makarska 26"))))
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
     
-    func reStart(){
+    private func reStart(){
         captureSession = AVCaptureSession()
         captureSession.sessionPreset = .high
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -260,14 +264,14 @@ extension ScanVC {
         captureSession.startRunning()
     }
     
-    func failed() {
+    private func failed() {
         let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
         captureSession = nil
     }
     
-    func toggleFlash() {
+    private func toggleFlash() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         guard device.hasTorch else { return }
 

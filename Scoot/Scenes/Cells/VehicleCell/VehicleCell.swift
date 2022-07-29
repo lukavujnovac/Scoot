@@ -8,11 +8,13 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import CoreLocation
 
 class VehicleCell: UITableViewCell {
 
     static let identifier = "VehicleCell"
     
+    var distance = ""
     @IBOutlet weak var vehicleImage: UIImageView!
     @IBOutlet weak var vehicleName: UILabel!
     @IBOutlet weak var vehicleTypeLabel: UILabel!
@@ -43,8 +45,32 @@ class VehicleCell: UITableViewCell {
         vehicleTypeLabel.text = vehicle.vehicleType
         batteryPercentage.text = vehicle.vehicleBattery
         batteryIndicatorView.layer.cornerRadius = 4
+        
+        let strArr = vehicle.vehicleBattery.split(separator: " ")
+
+        for item in strArr {
+            let part = item.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+
+            if let intVal = Int(part) {
+                switch intVal {
+                case 0 ..< 30:
+                    batteryImage.image = UIImage(systemName:  "battery.25")
+                    batteryImage.tintColor = .systemRed
+                case 30 ..< 76:
+                    batteryImage.image = UIImage(systemName: "battery.50")
+                    batteryImage.tintColor = .yellow
+                case 76 ... 100:
+                    batteryImage.image = UIImage(systemName: "battery.100")
+                    batteryImage.tintColor = .scootLoginGreen
+                default:
+                    batteryImage.image = UIImage(systemName: "battery.0")
+                    batteryImage.tintColor = .label
+                }
+            }
+        }
 
         distanceLabel.text = "SAM IZRACUNAT"
         distanceIndicatorView.layer.cornerRadius = 4
     }
-}
+    
+    }

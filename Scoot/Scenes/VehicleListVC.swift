@@ -36,12 +36,14 @@ class VehicleListVC: UIViewController {
         return iv
     }()
     
-    let vehicles = MockData.vehicles
-    let apiCaller = ApiCaller.shared
-    var vehicleModels: [VehicleResponse] = []
+    private let emptyView = EmptyView(frame: .zero)
     
-    var manager: CLLocationManager?
-    var locationString: String = "no location"
+    private let vehicles = MockData.vehicles
+    private let apiCaller = ApiCaller.shared
+    private var vehicleModels: [VehicleResponse] = []
+    
+    private var manager: CLLocationManager?
+    private var locationString: String = "no location"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,30 +61,35 @@ class VehicleListVC: UIViewController {
         navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
+        view.addSubview(emptyView)
+        emptyView.isHidden = true
+        view.bringSubviewToFront(emptyView)
         
         showSpinner()
+    }
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         apiCaller.fetchVehicles().done { response in
             self.vehicleModels = response
+            self.setupLocationManager()
             self.tableView.reloadData()
+            
+            print(self.vehicleModels[3].vehicleId)
         }.catch { error in
             print(error)
         }.finally {
             self.hideSpinner()
+            self.checkIsEmpty()
         }
-        
     }
     
     @objc func logOutTapped() {
         UserDefaults.standard.setIsLoggedIn(value: false)
         let vc = LoginVC()
-        //        vc.modalPresentationStyle = .fullScreen
-        
-        //        present(vc, animated: true)
-        
         navigationController?.pushViewController(vc , animated: true)
-        
-        //        navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -96,12 +103,24 @@ class VehicleListVC: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         configureConstraints()
+        
+        emptyView.frame = view.bounds
+    }
+    
+    private func checkIsEmpty() {
+        if vehicleModels.isEmpty  {
+            print("no data")
+            emptyView.isHidden = false
+        }else {
+            print("data")
+            emptyView.isHidden = true
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        setupLocationManager()
+       
     }
     
     private func setupLocationManager() {
@@ -150,7 +169,7 @@ private extension VehicleListVC {
 
 extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        vehicleModels.count
+        vehicleModels.count + 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -161,11 +180,17 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: LocationCell.identifier, for: indexPath) as? LocationCell else {fatalError()}
             cell.configure(with: UserDefaults.standard.getLocation())
+            
             return cell
         }
         
+        let vehicleModel = vehicleModels[indexPath.row - 1]
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
-        cell.configure(with: vehicleModels[indexPath.row])
+        
+        cell.configure(with: vehicleModels[indexPath.row - 1])
+        cell.distanceLabel.text = LocationManager.shared.getDistance(for: vehicleModel)
+        
         return cell
     }
     
@@ -180,7 +205,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
             present(vc, animated: true)
         }else {
             tableView.deselectRow(at: indexPath, animated: true)
-            presentModal(vehicle: self.vehicleModels[indexPath.row])
+            presentModal(vehicle: self.vehicleModels[indexPath.row - 1])
         }
         tableView.reloadData()
     }
@@ -215,12 +240,14 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
 
 extension VehicleListVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        manager.stopUpdatingLocation()
         guard let first = locations.first else {return}
-        let locationLon = "\(first.coordinate.longitude)"
-        let locationLat = "\(first.coordinate.latitude)"
+        LocationManager.shared.locationLon = first.coordinate.longitude
+        LocationManager.shared.locationLat = first.coordinate.latitude
+
+        let locationLonString = "\(first.coordinate.longitude)"
+        let locationLatString = "\(first.coordinate.latitude)"
         
-        LocationManager.shared.getAddressFromLatLon(pdblLatitude: locationLat, withLongitude: locationLon)
+        LocationManager.shared.getAddressFromLatLon(pdblLatitude: locationLatString, withLongitude: locationLonString)
         tableView.reloadData()
     }
 }

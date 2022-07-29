@@ -32,7 +32,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Al-C0-Maf">
-                        <rect key="frame" x="102" y="155" width="67" height="24"/>
+                        <rect key="frame" x="102" y="155" width="69.5" height="24"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="95%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YSa-hs-bBe">
                                 <rect key="frame" x="33" y="4" width="28.5" height="16"/>
@@ -55,12 +55,12 @@
                             <constraint firstAttribute="height" constant="24" id="5sC-nR-FAh"/>
                             <constraint firstItem="YSa-hs-bBe" firstAttribute="leading" secondItem="vaG-7E-ebS" secondAttribute="trailing" constant="5" id="8DB-hc-Z8z"/>
                             <constraint firstItem="vaG-7E-ebS" firstAttribute="leading" secondItem="8Al-C0-Maf" secondAttribute="leading" constant="8" id="CdW-qB-lxm"/>
-                            <constraint firstAttribute="width" constant="67" id="IYg-cv-Zl7"/>
+                            <constraint firstAttribute="trailing" secondItem="YSa-hs-bBe" secondAttribute="trailing" constant="8" id="D4D-7q-bFv"/>
                             <constraint firstItem="vaG-7E-ebS" firstAttribute="top" secondItem="8Al-C0-Maf" secondAttribute="top" constant="4" id="y1x-Se-Tgh"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="P8a-yH-O9F">
-                        <rect key="frame" x="177" y="155" width="121" height="24"/>
+                        <rect key="frame" x="179.5" y="155" width="121" height="24"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="distanceImage" translatesAutoresizingMaskIntoConstraints="NO" id="GL0-UP-lX5">
                                 <rect key="frame" x="8" y="4" width="16" height="16"/>

@@ -7,17 +7,22 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class LocationFinderVC: UIViewController, UISearchBarDelegate, MKLocalSearchCompleterDelegate {
     
-    var searchBar = UISearchBar()
-    var searchResultsTable = UITableView()
+    private var searchBar = UISearchBar()
+    private var searchResultsTable = UITableView()
     
-    var searchCompleter = MKLocalSearchCompleter()
+    private var searchCompleter = MKLocalSearchCompleter()
     
-    var searchResults = [MKLocalSearchCompletion]()
+    private var searchResults = [MKLocalSearchCompletion]()
     
     var didSelectLocation: (() -> Void)?
+    private var manager: CLLocationManager?
+    
+    private var currentLocationLon = CLLocationDegrees(0)
+    private var currentLocationLat = CLLocationDegrees(0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +41,20 @@ class LocationFinderVC: UIViewController, UISearchBarDelegate, MKLocalSearchComp
         configureTable()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        setupLocationManager()
+    }
+    
+    private func setupLocationManager() {
+        manager = CLLocationManager()
+        manager?.delegate = self
+        manager?.desiredAccuracy = kCLLocationAccuracyBest
+        manager?.requestWhenInUseAuthorization()
+        manager?.startUpdatingLocation()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -44,8 +63,10 @@ class LocationFinderVC: UIViewController, UISearchBarDelegate, MKLocalSearchComp
         searchBar.frame = CGRect(x: 16, y: 20, width: UIScreen.main.bounds.width - 32, height: 40)
         view.bringSubviewToFront(searchBar)
     }
-    
-    func configureTable() {
+}
+
+extension LocationFinderVC {
+    private func configureTable() {
         searchResultsTable.register(UINib(nibName: "LocationCell", bundle: nil), forCellReuseIdentifier: LocationCell.identifier)
         searchResultsTable.register(UINib(nibName: "CurrentLocationCell", bundle: nil), forCellReuseIdentifier: CurrentLocationCell.identifier)
         searchResultsTable.contentInset.top = 60
@@ -68,8 +89,6 @@ extension LocationFinderVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let searchResult = searchResults[indexPath.row - 1]
-        
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrentLocationCell.identifier, for: indexPath) as? CurrentLocationCell else {fatalError()}
             cell.configure()
@@ -86,20 +105,37 @@ extension LocationFinderVC: UITableViewDataSource {
 extension LocationFinderVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        self.dismiss(animated: true, completion: didSelectLocation)
+        self.dismiss(animated: true, completion: self.didSelectLocation)
         
-        let result = searchResults[indexPath.row]
-        let searchRequest = MKLocalSearch.Request(completion: result)
-        
-        let search = MKLocalSearch(request: searchRequest)
-        search.start { (response, error) in
-            //            guard let coordinate = response?.mapItems[0].placemark.coordinate else { return }            
-            //            guard let name = response?.mapItems[0].name else { return }
-            let locationString = "\(self.searchResults[indexPath.row - 1].title) \(self.searchResults[indexPath.row - 1].subtitle)"
-            UserDefaults.standard.setLocation(location: locationString)
-            //            let lat = coordinate.latitude
-            //            let lon = coordinate.longitude
+        if indexPath.row == 0 {
+            LocationManager.shared.locationLat = currentLocationLat
+            LocationManager.shared.locationLon = currentLocationLon
+        }else {
+            let result = searchResults[indexPath.row]
+            let searchRequest = MKLocalSearch.Request(completion: result)
+            
+            let search = MKLocalSearch(request: searchRequest)
+            search.start { (response, error) in
+                guard let coordinate = response?.mapItems[0].placemark.coordinate else { return }
+                let locationString = "\(self.searchResults[indexPath.row - 1].title) \(self.searchResults[indexPath.row - 1].subtitle)"
+                UserDefaults.standard.setLocation(location: locationString)
+                LocationManager.shared.locationLat = coordinate.latitude
+                LocationManager.shared.locationLon = coordinate.longitude
+            }
         }
+    }
+}
+
+extension LocationFinderVC: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let first = locations.first else {return}
+        currentLocationLon = first.coordinate.longitude
+        currentLocationLat = first.coordinate.latitude
+        
+        let locationLonString = "\(first.coordinate.longitude)"
+        let locationLatString = "\(first.coordinate.latitude)"
+        
+        LocationManager.shared.getAddressFromLatLon(pdblLatitude: locationLatString, withLongitude: locationLonString)
     }
 }
 

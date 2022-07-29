@@ -7,13 +7,58 @@
 
 import Foundation
 import PromiseKit
+import SwiftUI
 
 struct ApiCaller {
     static let shared = ApiCaller()
-    private let url: String = "https://scoot-ws.proficodev.com/vehicles"
+    private let vehicleUrl: String = "https://scoot-ws.proficodev.com/vehicles"
+    private let bookingUrl: String = "https://scoot-ws.proficodev.com/bookings/scan"
+    private let cancelUrl: String = "https://scoot-ws.proficodev.com/bookings/cancel"
+    
+    var vehicleIds: [String] = []
 
     public func fetchVehicles() -> Promise<[VehicleResponse]> {
-        return Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseDecodable()
+        let headers: HTTPHeaders = [
+            "Authorization" : UserDefaults.standard.getLoginToken()
+        ]
+        
+        Alamofire.request(vehicleUrl, method: .get, encoding: JSONEncoding.default, headers: headers).responseString { response in
+            print(response)
+        }
+        
+        return Alamofire.request(vehicleUrl, method: .get, encoding: JSONEncoding.default, headers: headers).responseDecodable()
+    }
+    //vehicle.vehicleId
+    public func startRide(vehicleId: String) -> Promise <BookingResponse>{
+        let params: Parameters = [
+            "serialNumber" : vehicleId
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Authorization" : "Bearer \(UserDefaults.standard.getLoginToken())"
+        ]
+        
+        Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseString{ response in
+            debugPrint(response)
+        }
+        
+        return Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
+    }
+    
+    public func cancelRide(vehicleId: String) -> Promise <BookingResponse>{
+        let params: Parameters = [
+            "serialNumber" : vehicleId
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Authorization" : "Bearer \(UserDefaults.standard.getLoginToken())"
+        ]
+        
+        Alamofire.request(cancelUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseString{ response in
+            debugPrint(response)
+        }
+        
+        return Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }
 }
 
@@ -26,6 +71,7 @@ struct VehicleResponse: Codable {
     let vehicleStatus: Bool
     let vehicleBattery: String
     let location: LocationResponse
+//    var distance: Float = 0
 }
 
 struct LocationResponse: Codable {
@@ -36,4 +82,13 @@ struct LocationInfo: Codable {
     let lat: Int
     let long: Int
     let locationString: String?
+}
+
+struct BookingResponse: Codable {
+    let id: String
+    let userId: Int
+    let vehicleId: Int
+    let startedAt: String
+    let updatedAt: String
+    let createdAt: String
 }

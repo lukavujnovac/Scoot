@@ -26,5 +26,21 @@ extension UserDefaults {
         return string(forKey: "location") ?? "no location"
     }
     
-//    func getCurrentLocation() 
+    func setLoginToken(value: String) {
+        set(value, forKey: "LoginToken")
+        synchronize()
+    }
+    
+    func getLoginToken() -> String {
+        return string(forKey: "LoginToken") ?? ""
+    }
+    
+    func setTimer(value: String) {
+        set(value, forKey: "timerValue")
+        synchronize()
+    }
+    
+    func getTimer() -> String {
+        return string(forKey: "timerValue") ?? "0s"
+    }
 }

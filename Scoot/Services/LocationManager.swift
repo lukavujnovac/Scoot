@@ -55,8 +55,11 @@ class LocationManager: NSObject {
         }
     }
     
-    public func getAddressFromLatLon(pdblLatitude: String, withLongitude pdblLongitude: String){
+    public func getAddressFromLatLon(pdblLatitude: String?, withLongitude pdblLongitude: String?){
+        guard let pdblLatitude = pdblLatitude, let pdblLongitude = pdblLongitude else { return }
+        
         var center : CLLocationCoordinate2D = CLLocationCoordinate2D()
+        
         let lat: Double = Double("\(pdblLatitude)")!
         
         let lon: Double = Double("\(pdblLongitude)")!
@@ -74,7 +77,7 @@ class LocationManager: NSObject {
             {
                 print("reverse geodcode fail: \(error!.localizedDescription)")
             }
-            let pm = placemarks! as [CLPlacemark]
+            guard let pm = placemarks as? [CLPlacemark] else {return}
             
             if pm.count > 0 {
                 let pm = placemarks![0]
@@ -101,5 +104,28 @@ class LocationManager: NSObject {
                 UserDefaults.standard.setLocation(location: addressString)
             }
         })
+    }
+    
+    var locationLon = CLLocationDegrees(0)
+    var locationLat = CLLocationDegrees(0)
+    
+    public func getDistance(for vehicle: VehicleResponse) -> String {
+        let vehicleLocationLat = CLLocationDegrees(vehicle.location.locationPoint.lat)
+        let vehicleLocationLon = CLLocationDegrees(vehicle.location.locationPoint.long)
+        
+        let vehicleLocation = CLLocation(latitude: vehicleLocationLat, longitude: vehicleLocationLon)
+        
+        let location = CLLocation(latitude: locationLat, longitude: locationLon)
+        
+        let distanceInMeters = vehicleLocation.distance(from: location)
+        
+        print("\(distanceInMeters)")
+        
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        formatter.numberStyle = .decimal
+        
+        return "\(formatter.string(from: distanceInMeters / 1000 as NSNumber) ?? "0") km away"
     }
 }
