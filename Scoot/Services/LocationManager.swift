@@ -119,7 +119,7 @@ class LocationManager: NSObject {
         
         let distanceInMeters = vehicleLocation.distance(from: location)
         
-        print("\(distanceInMeters)")
+//        print("\(distanceInMeters)")
         
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0

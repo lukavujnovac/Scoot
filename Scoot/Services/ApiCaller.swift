@@ -38,10 +38,6 @@ struct ApiCaller {
             "Authorization" : "Bearer \(UserDefaults.standard.getLoginToken())"
         ]
         
-        Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseString{ response in
-            debugPrint(response)
-        }
-        
         return Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }
     
@@ -53,11 +49,6 @@ struct ApiCaller {
         let headers: HTTPHeaders = [
             "Authorization" : "Bearer \(UserDefaults.standard.getLoginToken())"
         ]
-        
-        Alamofire.request(cancelUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseString{ response in
-            debugPrint(response)
-        }
-        
         return Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }
 }

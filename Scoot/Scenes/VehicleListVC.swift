@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import Reachability
 
 class VehicleListVC: UIViewController {
     
@@ -45,6 +46,8 @@ class VehicleListVC: UIViewController {
     private var manager: CLLocationManager?
     private var locationString: String = "no location"
     
+    let reachability = try! Reachability()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,29 +64,47 @@ class VehicleListVC: UIViewController {
         navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
         
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
+        //        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "log out", style: .plain, target: self, action: #selector(logOutTapped))
         view.addSubview(emptyView)
         emptyView.isHidden = true
         view.bringSubviewToFront(emptyView)
         
         showSpinner()
+        
+        
+        
     }
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        apiCaller.fetchVehicles().done { response in
-            self.vehicleModels = response
-            self.setupLocationManager()
-            self.tableView.reloadData()
+        
+        reachability.whenReachable = { reach in
             
-            print(self.vehicleModels[3].vehicleId)
-        }.catch { error in
-            print(error)
-        }.finally {
-            self.hideSpinner()
-            self.checkIsEmpty()
+            self.apiCaller.fetchVehicles().done { response in
+                self.vehicleModels = response
+                self.setupLocationManager()
+                self.tableView.reloadData()
+                
+            }.catch { error in
+                print(error)
+            }.finally {
+                self.hideSpinner()
+                self.checkIsEmpty()
+            }
+            
         }
+        
+        reachability.whenUnreachable = { _ in
+            print("no internet")
+        }
+        
+        do {
+            try reachability.startNotifier()
+        }catch {
+            print("unable to start notifier")
+        }
+        
     }
     
     @objc func logOutTapped() {
@@ -120,7 +141,7 @@ class VehicleListVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-       
+        
     }
     
     private func setupLocationManager() {
@@ -243,7 +264,7 @@ extension VehicleListVC: CLLocationManagerDelegate {
         guard let first = locations.first else {return}
         LocationManager.shared.locationLon = first.coordinate.longitude
         LocationManager.shared.locationLat = first.coordinate.latitude
-
+        
         let locationLonString = "\(first.coordinate.longitude)"
         let locationLatString = "\(first.coordinate.latitude)"
         

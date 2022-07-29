@@ -13,7 +13,7 @@ import SnapKit
 class EmptyView: UIView {
     let label: UILabel = {
         let label = UILabel()
-        label.text = "No vehicles to show"
+        label.text = "Vehicles unavailable"
         label.textAlignment = .center
         
         return label

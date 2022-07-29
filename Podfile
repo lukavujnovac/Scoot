@@ -13,6 +13,7 @@ target 'Scoot' do
   pod "PromiseKit", "~> 6.8"
   pod 'FloatingPanel'
   pod 'Cosmos'
+  pod 'ReachabilitySwift'
 
   target 'ScootTests' do
     inherit! :search_paths

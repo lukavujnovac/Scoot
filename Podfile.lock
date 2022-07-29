@@ -15,6 +15,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (6.17.1):
     - PromiseKit/CorePromise
+  - ReachabilitySwift (5.0.0)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
@@ -23,6 +24,7 @@ DEPENDENCIES:
   - Kingfisher (~> 7.0)
   - PromiseKit (~> 6.8)
   - PromiseKit/Alamofire (~> 6.0)
+  - ReachabilitySwift
   - SnapKit (~> 5.0.0)
 
 SPEC REPOS:
@@ -32,6 +34,7 @@ SPEC REPOS:
     - FloatingPanel
     - Kingfisher
     - PromiseKit
+    - ReachabilitySwift
     - SnapKit
 
 SPEC CHECKSUMS:
@@ -40,8 +43,9 @@ SPEC CHECKSUMS:
   FloatingPanel: 3cee815e9ded75b632543fa73ab655a1ef941452
   Kingfisher: cdb1189a9223b1bc028816bd47c8b8101a58831c
   PromiseKit: ee485df3d4dc570594d7e7aecae6352697dc6a4c
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: a24ac7a4b6eb2733196974221c099daa3973df55
+PODFILE CHECKSUM: ffcb0e857307ff7ed39cfbee49d1962a3344b22a
 
 COCOAPODS: 1.11.3
