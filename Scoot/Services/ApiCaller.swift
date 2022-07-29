@@ -51,6 +51,8 @@ struct ApiCaller {
         ]
         return Alamofire.request(bookingUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }
+    
+    //fali jos za getVehicle kad skeniras qr code
 }
 
 struct VehicleResponse: Codable {

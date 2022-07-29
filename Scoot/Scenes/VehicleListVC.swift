@@ -261,6 +261,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
 
 extension VehicleListVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
         guard let first = locations.first else {return}
         LocationManager.shared.locationLon = first.coordinate.longitude
         LocationManager.shared.locationLat = first.coordinate.latitude
