@@ -20,7 +20,6 @@ class ScootTextField: UITextField {
     init(placeholderText: String, type: TFType) {
         super.init(frame: .zero)
         
-//        self.placeholder = placeholderText
         self.attributedPlaceholder = NSAttributedString(
             string: placeholderText,attributes: [ NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .regular)])
         

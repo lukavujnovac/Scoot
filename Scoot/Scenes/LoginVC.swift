@@ -44,6 +44,9 @@ class LoginVC: UIViewController {
     
     private let emailTextField = ScootTextField(placeholderText: "Email Adress", type: .emailField)
     private let passwordTextField = ScootTextField(placeholderText: "Password", type: .passwordField)
+    private let authManager = AuthService.shared
+    private var email: String = ""
+    private var password: String = ""
     
     private let passwordVisibillityButton = UIButton(type: .custom)
     
@@ -62,6 +65,7 @@ class LoginVC: UIViewController {
     private let loginButton = ScootButton(backgruondColor: UIColor.scootPurple500!, title: "Login", titleColor: .systemBackground)
     
     private var passwordVisibility: Bool = true
+    private var isLoading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +77,8 @@ class LoginVC: UIViewController {
         configurePasswordTF()
         configureLoginButton()
         self.hideKeyboardWhenTappedAround()
+        
+        navigationItem.hidesBackButton = true
         
         addViews()
     }
@@ -165,6 +171,7 @@ private extension LoginVC {
     
     func configureEmailTF() {
         emailTextField.addTarget(self, action: #selector(emailDidChange), for: .editingChanged)
+        email = emailTextField.text ?? ""
     }
     
     func configurePasswordTF() {
@@ -177,21 +184,29 @@ private extension LoginVC {
         
         passwordTextField.setRightView(passwordVisibillityButton, padding: 16.25)
         passwordTextField.isSecureTextEntry = true
+        password = passwordTextField.text ?? ""
     }
     
-    @objc private func loginTapped() {
-        print("login")
-//        passwordTextField.layer.borderColor = UIColor.systemRed.cgColor
-//        emailTextField.layer.borderColor = UIColor.systemRed.cgColor
+    @objc func loginTapped() {
+        if isLoading { return }
+        isLoading = true
         showSpinner()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        authManager.loginUser(email: self.email, pass: self.password).done { response in
+            guard let token = response.accessToken else {
+                self.errorMessageLabel.isHidden = false
+                return
+            }
+            self.navigationController?.pushViewController(VehicleListVC(), animated: true)
+            UserDefaults.standard.setIsLoggedIn(value: true)
+            UserDefaults.standard.setLoginToken(value: token)
+            print("token: -----")
+            print(UserDefaults.standard.getLoginToken())
+        }.catch { error in
+            print(error)
+            self.errorMessageLabel.isHidden = false
+        }.finally {
             self.hideSpinner()
-//            self.errorMessageLabel.isHidden = false
-            let vc = VehicleListVC()
-            vc.modalPresentationStyle = .fullScreen
-//            self.present(vc, animated: true)
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.isLoading = false
         }
     }
     
@@ -214,6 +229,7 @@ private extension LoginVC {
         emailTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
         emailTextField.clearsOnBeginEditing = false
         
+        email = emailTextField.text ?? ""
         if emailTextField.text == "" {
             emailTextField.layer.borderColor = UIColor.systemGray.cgColor
         }
@@ -221,9 +237,7 @@ private extension LoginVC {
     
     @objc func passwordDidChange() {
         passwordTextField.layer.borderColor = UIColor.scootPurple500?.cgColor
-//        passwordString = passwordTextField.text ?? ""
-//        passwordTextField.clearsOnBeginEditing = false
-        print(passwordTextField.text)
+        password = passwordTextField.text ?? ""
         
         if passwordTextField.text == "" {
             passwordTextField.layer.borderColor = UIColor.systemGray.cgColor

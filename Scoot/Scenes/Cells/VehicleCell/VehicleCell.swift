@@ -7,11 +7,14 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
+import CoreLocation
 
 class VehicleCell: UITableViewCell {
 
     static let identifier = "VehicleCell"
     
+    var distance = ""
     @IBOutlet weak var vehicleImage: UIImageView!
     @IBOutlet weak var vehicleName: UILabel!
     @IBOutlet weak var vehicleTypeLabel: UILabel!
@@ -27,37 +30,47 @@ class VehicleCell: UITableViewCell {
         
         selectionStyle = .none
     }
-
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
-//
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//    }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//    }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with vehicle: VehicleModel) {
-        vehicleImage.image = UIImage(named: vehicle.image)
+    func configure(with vehicle: VehicleResponse) {
+        
+        if let url = URL(string: vehicle.avatar) {
+            vehicleImage.kf.setImage(with: url)
+        }
 
-        vehicleName.text = vehicle.name.uppercased()
-
-        vehicleTypeLabel.text = vehicle.type.string.uppercased()
-
-        batteryPercentage.text = "\(vehicle.battery)%"
+        vehicleName.text = vehicle.vehicleName
+        vehicleTypeLabel.text = vehicle.vehicleType
+        batteryPercentage.text = vehicle.vehicleBattery
         batteryIndicatorView.layer.cornerRadius = 4
+        
+        let strArr = vehicle.vehicleBattery.split(separator: " ")
 
-        distanceLabel.text = "\(vehicle.location) km away"
+        for item in strArr {
+            let part = item.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+
+            if let intVal = Int(part) {
+                switch intVal {
+                case 0 ..< 30:
+                    batteryImage.image = UIImage(systemName:  "battery.25")
+                    batteryImage.tintColor = .systemRed
+                case 30 ..< 76:
+                    batteryImage.image = UIImage(systemName: "battery.50")
+                    batteryImage.tintColor = .yellow
+                case 76 ... 100:
+                    batteryImage.image = UIImage(systemName: "battery.100")
+                    batteryImage.tintColor = .scootLoginGreen
+                default:
+                    batteryImage.image = UIImage(systemName: "battery.0")
+                    batteryImage.tintColor = .label
+                }
+            }
+        }
+
+        distanceLabel.text = "SAM IZRACUNAT"
         distanceIndicatorView.layer.cornerRadius = 4
     }
-}
+    
+    }

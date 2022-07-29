@@ -7,12 +7,11 @@
 
 import UIKit
 import AVFoundation
-import SwiftUI
 
 class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
-    var captureSession: AVCaptureSession!
-    var previewLayer: AVCaptureVideoPreviewLayer!
+    private var captureSession: AVCaptureSession!
+    private var previewLayer: AVCaptureVideoPreviewLayer!
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -40,9 +39,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         button.frame = CGRect(x: 160, y: 100, width: 30, height: 30)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
-        let origImage = UIImage(named: "x")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        button.setImage(tintedImage, for: .normal)
+        button.setImage(UIImage(named: "x"), for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.tintColor = .white
         button.backgroundColor = .black
@@ -73,6 +70,8 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         navigationItem.hidesBackButton = true
         
         view.isUserInteractionEnabled = true
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,8 +98,8 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
-extension ScanVC {
-    private func addSubviews() {
+private extension ScanVC {
+    func addSubviews() {
         let overlay = createOverlay(frame: view.frame, xOffset: view.frame.midX, yOffset: view.frame.midY, radius: 50.0)
         view.bringSubviewToFront(overlay)
         view.addSubview(overlay)
@@ -118,7 +117,7 @@ extension ScanVC {
         view.bringSubviewToFront(flashButton)
     }
     
-    private func configureConstraints() {
+    func configureConstraints() {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(98)
             $0.centerX.equalToSuperview()
@@ -142,20 +141,19 @@ extension ScanVC {
         }
     }
     
-    private func configureExitButton() {
+    func configureExitButton() {
         exitButton.addTarget(self, action: #selector(didTapExit), for: .touchUpInside)
     }
     
-    @objc private func didTapExit() {
+    @objc func didTapExit() {
         self.dismiss(animated: true)
     }
     
-    private func configureFlashButton() {
+    func configureFlashButton() {
         flashButton.addTarget(self, action: #selector(didTapToggleFlash), for: .touchUpInside)
     }
     
-    @objc private func didTapToggleFlash() {
-        print("toggle flash")
+    @objc func didTapToggleFlash() {
         toggleFlash()
     }
     
@@ -165,19 +163,30 @@ extension ScanVC {
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         
         let path = CGMutablePath()
+        let framePath = CGMutablePath()
+        
+        framePath.addRoundedRect(in: CGRect(x: UIScreen.main.bounds.width / 2 - 151, y: UIScreen.main.bounds.height / 2 - 151, width: 302, height: 302), cornerWidth: 16, cornerHeight: 16)
+        framePath.closeSubpath()
         
         path.addRoundedRect(in: CGRect(x: UIScreen.main.bounds.width / 2 - 150, y: UIScreen.main.bounds.height / 2 - 150, width: 300, height: 300), cornerWidth: 16, cornerHeight: 16)
         path.closeSubpath()
         
-        path.addRect(CGRect(origin: .zero, size: overlayView.frame.size))
+        let size = CGSize(width: UIScreen.main.bounds.size.width + 10, height: UIScreen.main.bounds.size.height + 10)
+        path.addRect(CGRect(origin: .zero, size: size))
         
         let maskLayer = CAShapeLayer()
-        maskLayer.backgroundColor = UIColor.black.cgColor
         maskLayer.path = path
         maskLayer.fillRule = .evenOdd
-        
         overlayView.layer.mask = maskLayer
-        overlayView.clipsToBounds = true
+        overlayView.clipsToBounds = false
+        
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = framePath
+        borderLayer.lineWidth = 3
+        borderLayer.strokeColor = UIColor.white.cgColor
+        borderLayer.fillColor = UIColor.clear.cgColor
+        
+        overlayView.layer.addSublayer(borderLayer)
         
         return overlayView
     }
@@ -194,20 +203,28 @@ extension ScanVC {
             found(code: stringValue)
             
         }
-        
-        dismiss(animated: true)
+    }
+    
+    private func presentModal(vehicle: VehicleResponse) {
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true)
+        let nav = UINavigationController(rootViewController: detailViewController)
+        nav.modalPresentationStyle = .overFullScreen
+        present(nav, animated: true, completion: nil)
     }
     
     func found(code: String) {
         print("otvori vozilo \(code)")
+        
+//        ApiCaller.shared.startRide(vehicleId: code)
+        
+        presentModal(vehicle: VehicleResponse(id: 1, avatar: "https://scoot-ws.proficodev.com/static/scooter.png", vehicleName: "Meepo Shuffle S 4", vehicleType: "Scooter", vehicleId: "#VHC-SC-MP4", vehicleStatus: true, vehicleBattery: "90%", location: LocationResponse(locationPoint: LocationInfo(lat: 10, long: 10, locationString: "Makarska 26"))))
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
     
-    func reStart(){
-        //view.backgroundColor = UIColor.black
+    private func reStart(){
         captureSession = AVCaptureSession()
         captureSession.sessionPreset = .high
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -233,7 +250,7 @@ extension ScanVC {
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .code39, .code128, .qr]
+            metadataOutput.metadataObjectTypes = [.qr]
         } else {
             failed()
             return
@@ -244,19 +261,17 @@ extension ScanVC {
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
         
-        //            view.bringSubviewToFront(grView)
-        //            view.bringSubviewToFront(cancelBtn)
         captureSession.startRunning()
     }
     
-    func failed() {
+    private func failed() {
         let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
         captureSession = nil
     }
     
-    func toggleFlash() {
+    private func toggleFlash() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         guard device.hasTorch else { return }
 
@@ -272,7 +287,6 @@ extension ScanVC {
                     print(error)
                 }
             }
-
             device.unlockForConfiguration()
         } catch {
             print(error)

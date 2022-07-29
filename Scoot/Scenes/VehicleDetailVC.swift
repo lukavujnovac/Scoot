@@ -30,6 +30,7 @@ class VehicleDetailVC: UIViewController {
         table.register(UINib(nibName: "VehicleCell", bundle: nil), forCellReuseIdentifier: VehicleCell.identifier)
         table.contentInset.bottom = 100
         table.separatorStyle = .none
+        table.isScrollEnabled = false
         
         return table
     }()
@@ -43,12 +44,21 @@ class VehicleDetailVC: UIViewController {
         return button
     }()
     
-    var vehicle: VehicleModel
+    private let startRideButton: ScootButton = {
+        let button = ScootButton(backgruondColor: .scootPurple500!, title: "START RIDE", titleColor: .systemBackground)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+        
+        return button
+    }()
     
-    init(vehicle: VehicleModel) {
+    private var vehicle: VehicleResponse
+    private let afterScan: Bool
+    
+    init(vehicle: VehicleResponse, afterScan: Bool) {
         self.vehicle = vehicle
+        self.afterScan = afterScan
         super.init(nibName: nil, bundle: nil)
-        print(vehicle.name)
+        print(vehicle.vehicleName)
     }
     
     required init?(coder: NSCoder) {
@@ -66,14 +76,21 @@ class VehicleDetailVC: UIViewController {
         contentClickListener()
         addSubviews()
         
-        configureButton()
+        configureScanButton()
+        configureStartButton()
     }
-    
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureConstraints()
+        
+        if afterScan {
+            scanButton.isHidden = true
+            startRideButton.isHidden = false
+        }else {
+            scanButton.isHidden = false
+            startRideButton.isHidden = true
+        }
     }
     
     private func addSubviews() {
@@ -81,7 +98,7 @@ class VehicleDetailVC: UIViewController {
         backgroundView.addSubview(contentView)
         contentView.addSubview(tableView)
         contentView.addSubview(scanButton)
-        contentView.bringSubviewToFront(scanButton)
+        contentView.addSubview(startRideButton)
     }
     
     private func configureConstraints() {
@@ -104,6 +121,12 @@ class VehicleDetailVC: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(56)
         }
+        
+        startRideButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-40)
+            $0.leading.trailing.equalToSuperview().inset(32)
+            $0.height.equalTo(56)
+        }
     }
 }
 
@@ -119,6 +142,7 @@ extension VehicleDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         cell.configure(with: vehicle)
+        cell.distanceLabel.text = LocationManager.shared.getDistance(for: vehicle)
         return cell
     }
 }
@@ -145,15 +169,25 @@ private extension VehicleDetailVC {
     
     @objc func didTapScan() {
         print("scan")
-//        self.dismiss(animated: true)
-//        navigationController?.pushViewController(ScanVC(), animated: true)
         let vc = ScanVC()
         vc.modalPresentationStyle = .fullScreen
         
         present(vc, animated: true)
     }
     
-    func configureButton() {
+    @objc private func didTapStart() {
+        print("start ride")
+        let vc = RideInProgressVC()
+        navigationController?.pushViewController(vc, animated: true)
+        ApiCaller.shared.startRide(vehicleId: vehicle.vehicleId)
+    }
+    
+    func configureScanButton() {
         scanButton.addTarget(self, action: #selector(didTapScan), for: .touchUpInside)
+    }
+    
+    func configureStartButton() {
+        startRideButton.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
+        
     }
 }
