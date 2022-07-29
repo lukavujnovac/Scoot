@@ -54,6 +54,7 @@ class VehicleDetailVC: UIViewController {
     private var vehicle: VehicleResponse
     private let afterScan: Bool
     
+    
     init(vehicle: VehicleResponse, afterScan: Bool) {
         self.vehicle = vehicle
         self.afterScan = afterScan
@@ -142,7 +143,15 @@ extension VehicleDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         cell.configure(with: vehicle)
-        cell.distanceLabel.text = LocationManager.shared.getDistance(for: vehicle)
+        
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        formatter.numberStyle = .decimal
+        
+        guard let distanceString = formatter.string(from: LocationManager.shared.getDistance(for: vehicle) / 1000 as NSNumber) else {return UITableViewCell()}
+        
+        cell.distanceLabel.text = "\(distanceString) km away"
         return cell
     }
 }
@@ -169,7 +178,7 @@ private extension VehicleDetailVC {
     
     @objc func didTapScan() {
         print("scan")
-        let vc = ScanVC()
+        let vc = ScanVC(vehicleModels: [])
         vc.modalPresentationStyle = .fullScreen
         
         present(vc, animated: true)

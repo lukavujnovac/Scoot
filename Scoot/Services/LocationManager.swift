@@ -108,8 +108,9 @@ class LocationManager: NSObject {
     
     var locationLon = CLLocationDegrees(0)
     var locationLat = CLLocationDegrees(0)
+    var distance = [Double]() 
     
-    public func getDistance(for vehicle: VehicleResponse) -> String {
+    public func getDistance(for vehicle: VehicleResponse) -> Double {
         let vehicleLocationLat = CLLocationDegrees(vehicle.location.locationPoint.lat)
         let vehicleLocationLon = CLLocationDegrees(vehicle.location.locationPoint.long)
         
@@ -119,13 +120,6 @@ class LocationManager: NSObject {
         
         let distanceInMeters = vehicleLocation.distance(from: location)
         
-//        print("\(distanceInMeters)")
-        
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 2
-        formatter.numberStyle = .decimal
-        
-        return "\(formatter.string(from: distanceInMeters / 1000 as NSNumber) ?? "0") km away"
+        return distanceInMeters
     }
 }

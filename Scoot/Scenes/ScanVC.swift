@@ -62,6 +62,18 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         return button
     }()
     
+    var vehicleModels: [VehicleResponse]
+    
+    init(vehicleModels: [VehicleResponse]) {
+        self.vehicleModels = vehicleModels
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -71,7 +83,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         view.isUserInteractionEnabled = true
         
-        
+        print(vehicleModels)
     }
     
     override func viewDidLayoutSubviews() {
@@ -201,7 +213,6 @@ extension ScanVC {
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             found(code: stringValue)
-            
         }
     }
     
@@ -215,9 +226,17 @@ extension ScanVC {
     func found(code: String) {
         print("otvori vozilo \(code)")
         
-//        ApiCaller.shared.startRide(vehicleId: code)
+        let vehicle = vehicleModels.firstIndex(where: { $0.vehicleId == code})
+        print(vehicle)
         
-        presentModal(vehicle: VehicleResponse(id: 1, avatar: "https://scoot-ws.proficodev.com/static/scooter.png", vehicleName: "Meepo Shuffle S 4", vehicleType: "Scooter", vehicleId: "#VHC-SC-MP4", vehicleStatus: true, vehicleBattery: "90%", location: LocationResponse(locationPoint: LocationInfo(lat: 10, long: 10, locationString: "Makarska 26"))))
+        if let vehicle = vehicle {
+            presentModal(vehicle: vehicleModels[vehicle])
+        }else {
+            reStart()
+            addSubviews()
+            subtitleLabel.text = "Invalid QR code"
+            subtitleLabel.textColor = .systemRed
+        }
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
