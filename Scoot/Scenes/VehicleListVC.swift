@@ -86,7 +86,7 @@ class VehicleListVC: UIViewController {
                 self.setupLocationManager()
                 self.vehicleModels = response
                 //                self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
-                //                print(self.vehicleModels)
+                                print(self.vehicleModels)
                 self.tableView.reloadData()
             }.catch { error in
                 print(error)
@@ -181,7 +181,7 @@ private extension VehicleListVC {
     }
     
     @objc private func scanTapped() {
-        let vc = ScanVC(vehicleModels: vehicleModels)
+        let vc = ScanVC(vehicleModels: vehicleModels, vehicle: nil, afterDetailView: false)
         vc.modalPresentationStyle = .fullScreen
         
         present(vc, animated: true)
@@ -246,7 +246,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func presentModal(vehicle: VehicleResponse) {
-        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false)
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false, vehicleResponses: vehicleModels)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
         present(nav, animated: true, completion: nil)

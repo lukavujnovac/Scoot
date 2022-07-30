@@ -53,11 +53,12 @@ class VehicleDetailVC: UIViewController {
     
     private var vehicle: VehicleResponse
     private let afterScan: Bool
+    private let vehicleResponses: [VehicleResponse]
     
-    
-    init(vehicle: VehicleResponse, afterScan: Bool) {
+    init(vehicle: VehicleResponse, afterScan: Bool, vehicleResponses: [VehicleResponse]) {
         self.vehicle = vehicle
         self.afterScan = afterScan
+        self.vehicleResponses = vehicleResponses
         super.init(nibName: nil, bundle: nil)
         print(vehicle.vehicleName)
     }
@@ -178,7 +179,7 @@ private extension VehicleDetailVC {
     
     @objc func didTapScan() {
         print("scan")
-        let vc = ScanVC(vehicleModels: [])
+        let vc = ScanVC(vehicleModels: vehicleResponses, vehicle: vehicle, afterDetailView: true)
         vc.modalPresentationStyle = .fullScreen
         
         present(vc, animated: true)

@@ -62,10 +62,14 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         return button
     }()
     
-    var vehicleModels: [VehicleResponse]
+    private var vehicleModels: [VehicleResponse]
+    private var vehicle: VehicleResponse?
+    private var afterDetailView: Bool
     
-    init(vehicleModels: [VehicleResponse]) {
+    init(vehicleModels: [VehicleResponse], vehicle: VehicleResponse?, afterDetailView: Bool) {
         self.vehicleModels = vehicleModels
+        self.vehicle = vehicle
+        self.afterDetailView = afterDetailView
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -217,7 +221,7 @@ extension ScanVC {
     }
     
     private func presentModal(vehicle: VehicleResponse) {
-        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true)
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true, vehicleResponses: vehicleModels)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
         present(nav, animated: true, completion: nil)
@@ -229,14 +233,29 @@ extension ScanVC {
         let vehicle = vehicleModels.firstIndex(where: { $0.vehicleId == code})
         print(vehicle)
         
-        if let vehicle = vehicle {
-            presentModal(vehicle: vehicleModels[vehicle])
+        if afterDetailView {
+            if self.vehicle?.vehicleId == code {
+                presentModal(vehicle: self.vehicle!)
+            }else {
+                reStart()
+                addSubviews()
+                subtitleLabel.text = "Invalid QR code"
+                print(code)
+                subtitleLabel.textColor = .systemRed
+            }
         }else {
-            reStart()
-            addSubviews()
-            subtitleLabel.text = "Invalid QR code"
-            subtitleLabel.textColor = .systemRed
+            if let vehicle = vehicle {
+                presentModal(vehicle: vehicleModels[vehicle])
+            }else {
+                reStart()
+                addSubviews()
+                subtitleLabel.text = "Invalid QR code"
+                print(code)
+                subtitleLabel.textColor = .systemRed
+            }
         }
+        
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
