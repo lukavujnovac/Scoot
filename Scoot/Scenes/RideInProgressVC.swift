@@ -56,7 +56,18 @@ class RideInProgressVC: UIViewController {
     private var timer = Timer()
     private var timerCount = 1
     private var rotationAngle: CGFloat = CGFloat(0)
-
+    
+    var vehicleId: String
+    
+    init(vehicle: String) {
+        self.vehicleId = vehicle
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,10 +82,20 @@ class RideInProgressVC: UIViewController {
         progressImageView.rotate()
         
         slider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
+        
+        if UserDefaults.standard.getTimerStart() != nil {
+            
+            let date = UserDefaults.standard.getTimerStart() as! Date
+            let difference = Date.getTimeInterval(lhs: Date(), rhs: date)
+            
+            print(difference) 
+            timerCount = Int(difference)
+        }
+       
     }
     
     @objc private func sliderChanged() {
-        print("minja se")
+//        print("minja se")
         if slider.value == 1 {
             sliderLabel.text = "COMPLETED!" 
             sliderLabel.textColor = .systemBackground
@@ -88,7 +109,9 @@ class RideInProgressVC: UIViewController {
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.navigationController?.pushViewController(RideCompletedVC(), animated: true)
             
-            ApiCaller.shared.cancelRide(vehicleId: "")
+            ApiCaller.shared.cancelRide(vehicleId: vehicleId)
+            
+            print(vehicleId)
 //            }
             
         } else {
@@ -101,6 +124,10 @@ class RideInProgressVC: UIViewController {
         super.viewDidLayoutSubviews()
         
         configureConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
     }
 }
 

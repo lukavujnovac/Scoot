@@ -25,6 +25,7 @@
 		5F3CEB4028901DEA00DD6F15 /* LocationFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3CEB3F28901DEA00DD6F15 /* LocationFinderVC.swift */; };
 		5F673084288C3423002DFB0C /* CurrentLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F673082288C3423002DFB0C /* CurrentLocationCell.swift */; };
 		5F673085288C3423002DFB0C /* CurrentLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F673083288C3423002DFB0C /* CurrentLocationCell.xib */; };
+		5F74EBBF289554F600D8DE9B /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F74EBBE289554F600D8DE9B /* Date + Extension.swift */; };
 		9018BC812886EF57008DFDDA /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9018BC802886EF57008DFDDA /* K.swift */; };
 		906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191BC2887EE9D005EEF2A /* ScootTextField.swift */; };
 		906191BF2887F241005EEF2A /* ScootButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906191BE2887F241005EEF2A /* ScootButton.swift */; };
@@ -92,6 +93,7 @@
 		5F3CEB3F28901DEA00DD6F15 /* LocationFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFinderVC.swift; sourceTree = "<group>"; };
 		5F673082288C3423002DFB0C /* CurrentLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationCell.swift; sourceTree = "<group>"; };
 		5F673083288C3423002DFB0C /* CurrentLocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrentLocationCell.xib; sourceTree = "<group>"; };
+		5F74EBBE289554F600D8DE9B /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		8F43A59A856BBFF5B54ACE2B /* Pods-Scoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Scoot.debug.xcconfig"; path = "Target Support Files/Pods-Scoot/Pods-Scoot.debug.xcconfig"; sourceTree = "<group>"; };
 		9018BC802886EF57008DFDDA /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		906191BC2887EE9D005EEF2A /* ScootTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScootTextField.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				90F5D2A82889F58800FB8AD3 /* CGRect + Extensions.swift */,
 				5F1A43C32891BACE00878F28 /* UIImageView + Extenstions.swift */,
 				5F1A43C92891F95400878F28 /* UIView + Extensions.swift */,
+				5F74EBBE289554F600D8DE9B /* Date + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 				90995576288A233000F00AAF /* ScanVC.swift in Sources */,
 				007239A128844AB900BFEC1F /* AppDelegate.swift in Sources */,
 				906191BF2887F241005EEF2A /* ScootButton.swift in Sources */,
+				5F74EBBF289554F600D8DE9B /* Date + Extension.swift in Sources */,
 				90666F8A28897B62007275E5 /* VehicleDetailVC.swift in Sources */,
 				5F673084288C3423002DFB0C /* CurrentLocationCell.swift in Sources */,
 				007239A328844AB900BFEC1F /* SceneDelegate.swift in Sources */,

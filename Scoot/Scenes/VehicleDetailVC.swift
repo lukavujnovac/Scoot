@@ -186,9 +186,11 @@ private extension VehicleDetailVC {
     
     @objc private func didTapStart() {
         print("start ride")
-        let vc = RideInProgressVC()
+        let vc = RideInProgressVC(vehicle: vehicle.vehicleId)
         navigationController?.pushViewController(vc, animated: true)
         ApiCaller.shared.startRide(vehicleId: vehicle.vehicleId)
+        UserDefaults.standard.setCurrentVehicle(with: vehicle.vehicleId)
+        UserDefaults.standard.setTimerStart(date: Date())
     }
     
     func configureScanButton() {
@@ -197,6 +199,5 @@ private extension VehicleDetailVC {
     
     func configureStartButton() {
         startRideButton.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
-        
     }
 }

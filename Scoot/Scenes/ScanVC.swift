@@ -83,7 +83,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         view.isUserInteractionEnabled = true
         
-        print(vehicleModels)
+//        print(vehicleModels)
     }
     
     override func viewDidLayoutSubviews() {

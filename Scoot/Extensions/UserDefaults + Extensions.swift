@@ -43,4 +43,22 @@ extension UserDefaults {
     func getTimer() -> String {
         return string(forKey: "timerValue") ?? "0s"
     }
+    
+    func setTimerStart(date: Date?) {
+        set(date, forKey: "timerStart")
+        synchronize()
+    }
+    
+    func getTimerStart() -> Any? {
+        return object(forKey: "timerStart")
+    }
+    
+    func setCurrentVehicle(with id: String) {
+        set(id, forKey: "vehicleInUseId")
+        synchronize()
+    }
+    
+    func getCurrentVehicle() -> String? {
+        return string(forKey: "vehicleInUseId")
+    }
 }

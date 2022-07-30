@@ -61,12 +61,7 @@ struct ApiCaller {
         print("izvrsila se funkcija")
         
         let url = vehicleUrl + vehicleId
-        print(url)
-        
-        Alamofire.request(vehicleUrl, method: .get, parameters: params, encoding: JSONEncoding.default, headers: headers).responseString { response in
-            //            debugPrint("response for vehicle: -------")
-            //            debugPrint(response.result)
-        }
+//        print(url)
         
         return Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }

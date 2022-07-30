@@ -70,8 +70,13 @@ class VehicleListVC: UIViewController {
         view.bringSubviewToFront(emptyView)
         
         showSpinner()
-            
+        let notificationCenter = NotificationCenter.default
+        //        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        print(UserDefaults.standard.getTimerStart())
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -80,18 +85,16 @@ class VehicleListVC: UIViewController {
             self.apiCaller.fetchVehicles().done { response in
                 self.setupLocationManager()
                 self.vehicleModels = response
-//                self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
-                print(self.vehicleModels)
+                //                self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
+                //                print(self.vehicleModels)
                 self.tableView.reloadData()
             }.catch { error in
                 print(error)
             }.finally {
                 self.hideSpinner()
                 self.checkIsEmpty()
-            }
-            
+            }   
         }
-        
         reachability.whenUnreachable = { _ in
             print("no internet")
         }
@@ -217,7 +220,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         
         self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
         
-        print(vehicleModels[indexPath.row - 1].distance)
+        //        print(vehicleModels[indexPath.row - 1].distance)
         
         cell.configure(with: vehicleModels[indexPath.row - 1])
         
