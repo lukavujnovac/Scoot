@@ -11,7 +11,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
-    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -21,10 +20,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        let mainVC = UserDefaults.standard.isLoggedIn() ? VehicleListVC() : LoginVC()
         
-        window?.rootViewController = UINavigationController(rootViewController: mainVC)
+        var mainVC = UserDefaults.standard.isLoggedIn() ? VehicleListVC() : LoginVC()
+        
+        let vehicle = UserDefaults.standard.getCurrentVehicle()
+        let secondMainVC = UserDefaults.standard.getTimerStart() != nil ? RideInProgressVC(vehicle: vehicle ?? "") : mainVC
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didFinishLaunchingNotification, object: nil)
+        
+        window?.rootViewController = UINavigationController(rootViewController: secondMainVC)
         window?.makeKeyAndVisible()
+        }
+    
+    @objc func appMovedToBackground() {
+        print("App became active")
+        
+        let timer = UserDefaults.standard.getTimerStart() 
+        print(timer)
+        
+        if UserDefaults.standard.getTimerStart() != nil {
+            print("triba bi se otvorit drugi ekran")
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

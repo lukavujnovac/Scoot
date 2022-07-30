@@ -53,10 +53,12 @@ class VehicleDetailVC: UIViewController {
     
     private var vehicle: VehicleResponse
     private let afterScan: Bool
+    private let vehicleResponses: [VehicleResponse]
     
-    init(vehicle: VehicleResponse, afterScan: Bool) {
+    init(vehicle: VehicleResponse, afterScan: Bool, vehicleResponses: [VehicleResponse]) {
         self.vehicle = vehicle
         self.afterScan = afterScan
+        self.vehicleResponses = vehicleResponses
         super.init(nibName: nil, bundle: nil)
         print(vehicle.vehicleName)
     }
@@ -142,7 +144,15 @@ extension VehicleDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         cell.configure(with: vehicle)
-        cell.distanceLabel.text = LocationManager.shared.getDistance(for: vehicle)
+        
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        formatter.numberStyle = .decimal
+        
+        guard let distanceString = formatter.string(from: LocationManager.shared.getDistance(for: vehicle) / 1000 as NSNumber) else {return UITableViewCell()}
+        
+        cell.distanceLabel.text = "\(distanceString) km away"
         return cell
     }
 }
@@ -169,7 +179,7 @@ private extension VehicleDetailVC {
     
     @objc func didTapScan() {
         print("scan")
-        let vc = ScanVC()
+        let vc = ScanVC(vehicleModels: vehicleResponses, vehicle: vehicle, afterDetailView: true)
         vc.modalPresentationStyle = .fullScreen
         
         present(vc, animated: true)
@@ -177,9 +187,11 @@ private extension VehicleDetailVC {
     
     @objc private func didTapStart() {
         print("start ride")
-        let vc = RideInProgressVC()
+        let vc = RideInProgressVC(vehicle: vehicle.vehicleId)
         navigationController?.pushViewController(vc, animated: true)
         ApiCaller.shared.startRide(vehicleId: vehicle.vehicleId)
+        UserDefaults.standard.setCurrentVehicle(with: vehicle.vehicleId)
+        UserDefaults.standard.setTimerStart(date: Date())
     }
     
     func configureScanButton() {
@@ -188,6 +200,5 @@ private extension VehicleDetailVC {
     
     func configureStartButton() {
         startRideButton.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
-        
     }
 }

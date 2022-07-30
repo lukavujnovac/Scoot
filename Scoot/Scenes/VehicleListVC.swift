@@ -40,7 +40,7 @@ class VehicleListVC: UIViewController {
     private let emptyView = EmptyView(frame: .zero)
     
     private let vehicles = MockData.vehicles
-    private let apiCaller = ApiCaller.shared
+    private var apiCaller = ApiCaller.shared
     private var vehicleModels: [VehicleResponse] = []
     
     private var manager: CLLocationManager?
@@ -70,31 +70,31 @@ class VehicleListVC: UIViewController {
         view.bringSubviewToFront(emptyView)
         
         showSpinner()
+        let notificationCenter = NotificationCenter.default
+        //        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didBecomeActiveNotification, object: nil)
         
-        
-        
+        print(UserDefaults.standard.getTimerStart())
     }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         reachability.whenReachable = { reach in
-            
             self.apiCaller.fetchVehicles().done { response in
-                self.vehicleModels = response
                 self.setupLocationManager()
+                self.vehicleModels = response
+                //                self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
+                                print(self.vehicleModels)
                 self.tableView.reloadData()
-                
             }.catch { error in
                 print(error)
             }.finally {
                 self.hideSpinner()
                 self.checkIsEmpty()
-            }
-            
+            }   
         }
-        
         reachability.whenUnreachable = { _ in
             print("no internet")
         }
@@ -181,7 +181,7 @@ private extension VehicleListVC {
     }
     
     @objc private func scanTapped() {
-        let vc = ScanVC()
+        let vc = ScanVC(vehicleModels: vehicleModels, vehicle: nil, afterDetailView: false)
         vc.modalPresentationStyle = .fullScreen
         
         present(vc, animated: true)
@@ -209,8 +209,22 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.identifier, for: indexPath) as? VehicleCell else {fatalError()}
         
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        formatter.numberStyle = .decimal
+        
+        guard let distanceString = formatter.string(from: LocationManager.shared.getDistance(for: vehicleModel) / 1000 as NSNumber) else {return UITableViewCell()} 
+        
+        vehicleModels[indexPath.row - 1].distance = LocationManager.shared.getDistance(for: vehicleModel)
+        
+        self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
+        
+        //        print(vehicleModels[indexPath.row - 1].distance)
+        
         cell.configure(with: vehicleModels[indexPath.row - 1])
-        cell.distanceLabel.text = LocationManager.shared.getDistance(for: vehicleModel)
+        
+        cell.distanceLabel.text = "\(distanceString) km away"
         
         return cell
     }
@@ -232,7 +246,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func presentModal(vehicle: VehicleResponse) {
-        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false)
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: false, vehicleResponses: vehicleModels)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
         present(nav, animated: true, completion: nil)
@@ -261,6 +275,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
 
 extension VehicleListVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
         guard let first = locations.first else {return}
         LocationManager.shared.locationLon = first.coordinate.longitude
         LocationManager.shared.locationLat = first.coordinate.latitude

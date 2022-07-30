@@ -62,6 +62,22 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         return button
     }()
     
+    private var vehicleModels: [VehicleResponse]
+    private var vehicle: VehicleResponse?
+    private var afterDetailView: Bool
+    
+    init(vehicleModels: [VehicleResponse], vehicle: VehicleResponse?, afterDetailView: Bool) {
+        self.vehicleModels = vehicleModels
+        self.vehicle = vehicle
+        self.afterDetailView = afterDetailView
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -71,7 +87,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         view.isUserInteractionEnabled = true
         
-        
+//        print(vehicleModels)
     }
     
     override func viewDidLayoutSubviews() {
@@ -201,12 +217,11 @@ extension ScanVC {
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             found(code: stringValue)
-            
         }
     }
     
     private func presentModal(vehicle: VehicleResponse) {
-        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true)
+        let detailViewController = VehicleDetailVC(vehicle: vehicle, afterScan: true, vehicleResponses: vehicleModels)
         let nav = UINavigationController(rootViewController: detailViewController)
         nav.modalPresentationStyle = .overFullScreen
         present(nav, animated: true, completion: nil)
@@ -215,9 +230,32 @@ extension ScanVC {
     func found(code: String) {
         print("otvori vozilo \(code)")
         
-//        ApiCaller.shared.startRide(vehicleId: code)
+        let vehicle = vehicleModels.firstIndex(where: { $0.vehicleId == code})
+        print(vehicle)
         
-        presentModal(vehicle: VehicleResponse(id: 1, avatar: "https://scoot-ws.proficodev.com/static/scooter.png", vehicleName: "Meepo Shuffle S 4", vehicleType: "Scooter", vehicleId: "#VHC-SC-MP4", vehicleStatus: true, vehicleBattery: "90%", location: LocationResponse(locationPoint: LocationInfo(lat: 10, long: 10, locationString: "Makarska 26"))))
+        if afterDetailView {
+            if self.vehicle?.vehicleId == code {
+                presentModal(vehicle: self.vehicle!)
+            }else {
+                reStart()
+                addSubviews()
+                subtitleLabel.text = "Invalid QR code"
+                print(code)
+                subtitleLabel.textColor = .systemRed
+            }
+        }else {
+            if let vehicle = vehicle {
+                presentModal(vehicle: vehicleModels[vehicle])
+            }else {
+                reStart()
+                addSubviews()
+                subtitleLabel.text = "Invalid QR code"
+                print(code)
+                subtitleLabel.textColor = .systemRed
+            }
+        }
+        
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

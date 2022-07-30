@@ -60,7 +60,7 @@ class LoginVC: UIViewController {
         label.isHidden = true
         
         return label
-    }()
+    }() 
     
     private let loginButton = ScootButton(backgruondColor: UIColor.scootPurple500!, title: "Login", titleColor: .systemBackground)
     

@@ -37,7 +37,6 @@ class AuthService {
         let params: Parameters = [
             "email" : email,
             "password" : pass
-//            "accessToken": getAccessToken()
         ] as! [String:String]
         
         let headers: HTTPHeaders = [
@@ -55,3 +54,4 @@ struct LoginResponse: Codable {
     let accessToken: String?
 }
 
+  
