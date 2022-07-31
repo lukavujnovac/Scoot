@@ -16,11 +16,9 @@ class AuthService {
     
     public func checkUserInfo(username: String, password: String) -> Bool {
         if user.username == username && user.password == password {
-            print("moze se logirat")
             UserDefaults.standard.setIsLoggedIn(value: true)
             return true
         }else {
-            print("ne moze se logirat")
             UserDefaults.standard.setIsLoggedIn(value: false)
             return false
         }

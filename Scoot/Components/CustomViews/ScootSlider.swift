@@ -43,8 +43,6 @@ class ScootSlider: UISlider {
         let thumbRectA = thumbRect(forBounds: bounds, trackRect: trackRect(forBounds: bounds), value: value)
         trackLayer.frame = .init(x: 0, y: frame.height / 4 - 20, width: thumbRectA.maxX + 8 , height: frame.height  )
         
-//        print(value)
-        
         if value == 1.0 {
             imageName = "checkmark"
             createThumbImageView()

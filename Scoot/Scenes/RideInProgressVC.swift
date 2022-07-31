@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Reachability
 
 class RideInProgressVC: UIViewController {
     
@@ -56,6 +57,7 @@ class RideInProgressVC: UIViewController {
     private var timer = Timer()
     private var timerCount = 1
     private var rotationAngle: CGFloat = CGFloat(0)
+    private let reachability = try! Reachability()
     
     var vehicleId: String
     
@@ -99,12 +101,23 @@ class RideInProgressVC: UIViewController {
             titleLabel.text = "COMPLETED!"
             timer.invalidate()
             slider.isEnabled = false
+            UserDefaults.standard.setTimer(value: self.timerLabel.text ?? "0s")
             
-            UserDefaults.standard.setTimer(value: timerLabel.text ?? "0s")
+            reachability.whenReachable = {_ in 
+                self.navigationController?.pushViewController(RideCompletedVC(), animated: true)
+                
+                ApiCaller.shared.cancelRide(vehicleId: self.vehicleId)
+            }
+            reachability.whenUnreachable = {_ in 
+                UserDefaults.standard.setTimerStart(date: nil)
+            }
+            do {
+                try reachability.startNotifier()
+            }catch {
+                print("unable to start notifier")
+            }
             
-            self.navigationController?.pushViewController(RideCompletedVC(), animated: true)
             
-            ApiCaller.shared.cancelRide(vehicleId: vehicleId)
             
         } else {
             sliderLabel.text = "SLIDE TO FINISH RIDE"

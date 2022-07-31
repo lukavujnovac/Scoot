@@ -27,22 +27,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let secondMainVC = UserDefaults.standard.getTimerStart() != nil ? RideInProgressVC(vehicle: vehicle ?? "") : mainVC
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didFinishLaunchingNotification, object: nil)
         
         window?.rootViewController = UINavigationController(rootViewController: secondMainVC)
         window?.makeKeyAndVisible()
         }
-    
-    @objc func appMovedToBackground() {
-        print("App became active")
-        
-        let timer = UserDefaults.standard.getTimerStart() 
-        print(timer)
-        
-        if UserDefaults.standard.getTimerStart() != nil {
-            print("triba bi se otvorit drugi ekran")
-        }
-    }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

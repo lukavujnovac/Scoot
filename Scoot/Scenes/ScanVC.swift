@@ -16,7 +16,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Scan to ride"
-        label.textColor = .systemBackground
+        label.textColor = .white
         label.font = .systemFont(ofSize: 28, weight: .bold)
         
         return label
@@ -26,7 +26,7 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         let label = UILabel()
         label.text = "Scan the barcode on the side of the vehicle"
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .systemBackground
+        label.textColor = .white
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -311,9 +311,11 @@ extension ScanVC {
 
             if (device.torchMode == AVCaptureDevice.TorchMode.on) {
                 device.torchMode = AVCaptureDevice.TorchMode.off
+                flashButton.backgroundColor = .white
             } else {
                 do {
                     try device.setTorchModeOn(level: 1.0)
+                    flashButton.backgroundColor = .yellow
                 } catch {
                     print(error)
                 }

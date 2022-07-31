@@ -73,4 +73,13 @@ class VehicleCell: UITableViewCell {
         distanceIndicatorView.layer.cornerRadius = 4
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        vehicleImage.image = nil
+        vehicleName.text = nil
+        vehicleTypeLabel.text = nil
+        batteryPercentage.text = nil
+        distanceLabel.text = nil
+    }
 }

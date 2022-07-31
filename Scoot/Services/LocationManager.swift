@@ -93,7 +93,6 @@ class LocationManager: NSObject {
                 if pm.postalCode != nil {
                     addressString += pm.postalCode! + " "
                 }
-//                self.locationString = addressString
                 UserDefaults.standard.setLocation(location: addressString)
             }
         })

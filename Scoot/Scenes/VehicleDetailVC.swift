@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Reachability
 
 class VehicleDetailVC: UIViewController {
     
@@ -54,6 +55,7 @@ class VehicleDetailVC: UIViewController {
     private var vehicle: VehicleResponse
     private let afterScan: Bool
     private let vehicleResponses: [VehicleResponse]
+    private let reachability = try! Reachability()
     
     init(vehicle: VehicleResponse, afterScan: Bool, vehicleResponses: [VehicleResponse]) {
         self.vehicle = vehicle
@@ -185,10 +187,20 @@ private extension VehicleDetailVC {
     
     @objc private func didTapStart() {
         let vc = RideInProgressVC(vehicle: vehicle.vehicleId)
-        navigationController?.pushViewController(vc, animated: true)
-        ApiCaller.shared.startRide(vehicleId: vehicle.vehicleId)
-        UserDefaults.standard.setCurrentVehicle(with: vehicle.vehicleId)
-        UserDefaults.standard.setTimerStart(date: Date())
+        reachability.whenReachable = { _ in 
+            print("internet")
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+            ApiCaller.shared.startRide(vehicleId: self.vehicle.vehicleId)
+            UserDefaults.standard.setCurrentVehicle(with: self.vehicle.vehicleId)
+            UserDefaults.standard.setTimerStart(date: Date()) 
+        } 
+        
+        do {
+            try reachability.startNotifier()
+        }catch {
+            print("unable to start notifier")
+        }
     }
     
     func configureScanButton() {

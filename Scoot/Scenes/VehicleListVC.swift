@@ -71,34 +71,10 @@ class VehicleListVC: UIViewController {
         
         showSpinner()
     }
-    
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        reachability.whenReachable = { reach in
-            self.apiCaller.fetchVehicles().done { response in
-                self.setupLocationManager()
-                self.vehicleModels = response
-                self.tableView.reloadData()
-            }.catch { error in
-                print(error)
-            }.finally {
-                self.hideSpinner()
-                self.checkIsEmpty()
-            }   
-        }
-        reachability.whenUnreachable = { _ in
-            print("no internet")
-        }
-        
-        do {
-            try reachability.startNotifier()
-        }catch {
-            print("unable to start notifier")
-        }
-        
+        setupLocationManager()    
     }
     
     @objc func logOutTapped() {
@@ -144,7 +120,6 @@ class VehicleListVC: UIViewController {
         manager?.desiredAccuracy = kCLLocationAccuracyBest
         manager?.requestWhenInUseAuthorization()
         manager?.startUpdatingLocation()
-        tableView.reloadData()
     }
 }
 
@@ -211,10 +186,6 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         
         guard let distanceString = formatter.string(from: LocationManager.shared.getDistance(for: vehicleModel) / 1000 as NSNumber) else {return UITableViewCell()} 
         
-        vehicleModels[indexPath.row - 1].distance = LocationManager.shared.getDistance(for: vehicleModel)
-        
-        self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
-        
         cell.configure(with: vehicleModels[indexPath.row - 1])
         
         cell.distanceLabel.text = "\(distanceString) km away"
@@ -277,7 +248,39 @@ extension VehicleListVC: CLLocationManagerDelegate {
         let locationLatString = "\(first.coordinate.latitude)"
         
         LocationManager.shared.getAddressFromLatLon(pdblLatitude: locationLatString, withLongitude: locationLonString)
+        fetchVehicles()
         tableView.reloadData()
+    }
+    
+    private func fetchVehicles() {
+        reachability.whenReachable = { _ in
+            self.apiCaller.fetchVehicles().done { response in        
+                self.vehicleModels = response
+                var sortedModels = [VehicleResponse]()
+                self.vehicleModels.forEach { vehicle in
+                    var vehicle1 = vehicle
+                    vehicle1.distance = LocationManager.shared.getDistance(for: vehicle1)
+                    sortedModels.append(vehicle1)
+                }
+                sortedModels = sortedModels.sorted(by: {$0.distance ?? 0 < $1.distance ?? 0})
+                self.vehicleModels = sortedModels
+                self.tableView.reloadData()
+            }.catch { error in
+                print(error)
+            }.finally {
+                self.hideSpinner()
+                self.checkIsEmpty()
+            }   
+        }
+        reachability.whenUnreachable = { _ in
+            print("no internet")
+        }
+        do {
+            try reachability.startNotifier()
+        }catch {
+            print("unable to start notifier")
+        }
+
     }
 }
 
