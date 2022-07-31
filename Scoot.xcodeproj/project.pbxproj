@@ -23,6 +23,12 @@
 		5F1A43CA2891F95400878F28 /* UIView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1A43C92891F95400878F28 /* UIView + Extensions.swift */; };
 		5F3CEB3E288FE93A00DD6F15 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */; };
 		5F3CEB4028901DEA00DD6F15 /* LocationFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3CEB3F28901DEA00DD6F15 /* LocationFinderVC.swift */; };
+		5F3DF8012896E7C7007C7B8E /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3DF8002896E7C7007C7B8E /* LoginResponse.swift */; };
+		5F3DF8032896E7E8007C7B8E /* VehicleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3DF8022896E7E8007C7B8E /* VehicleResponse.swift */; };
+		5F3DF8052896E80C007C7B8E /* LocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3DF8042896E80C007C7B8E /* LocationResponse.swift */; };
+		5F3DF8072896E81D007C7B8E /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3DF8062896E81D007C7B8E /* LocationInfo.swift */; };
+		5F3DF8092896E831007C7B8E /* BookingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3DF8082896E831007C7B8E /* BookingResponse.swift */; };
+		5F3DF80C2896E89D007C7B8E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3DF80B2896E89D007C7B8E /* Location.swift */; };
 		5F673084288C3423002DFB0C /* CurrentLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F673082288C3423002DFB0C /* CurrentLocationCell.swift */; };
 		5F673085288C3423002DFB0C /* CurrentLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F673083288C3423002DFB0C /* CurrentLocationCell.xib */; };
 		5F74EBBF289554F600D8DE9B /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F74EBBE289554F600D8DE9B /* Date + Extension.swift */; };
@@ -91,6 +97,12 @@
 		5F1A43C92891F95400878F28 /* UIView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extensions.swift"; sourceTree = "<group>"; };
 		5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5F3CEB3F28901DEA00DD6F15 /* LocationFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFinderVC.swift; sourceTree = "<group>"; };
+		5F3DF8002896E7C7007C7B8E /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		5F3DF8022896E7E8007C7B8E /* VehicleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleResponse.swift; sourceTree = "<group>"; };
+		5F3DF8042896E80C007C7B8E /* LocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResponse.swift; sourceTree = "<group>"; };
+		5F3DF8062896E81D007C7B8E /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
+		5F3DF8082896E831007C7B8E /* BookingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingResponse.swift; sourceTree = "<group>"; };
+		5F3DF80B2896E89D007C7B8E /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		5F673082288C3423002DFB0C /* CurrentLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationCell.swift; sourceTree = "<group>"; };
 		5F673083288C3423002DFB0C /* CurrentLocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrentLocationCell.xib; sourceTree = "<group>"; };
 		5F74EBBE289554F600D8DE9B /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
@@ -176,16 +188,18 @@
 		0072399F28844AB900BFEC1F /* Scoot */ = {
 			isa = PBXGroup;
 			children = (
-				906191CA288823A8005EEF2A /* Services */,
-				90A999ED2887467F004AC862 /* Helpers */,
 				9018BC822886EF7F008DFDDA /* Resources */,
-				90CBA32C2886E4670043ADEA /* Scenes */,
-				906191C92888238E005EEF2A /* Components */,
+				906191CA288823A8005EEF2A /* Services */,
 				90CBA32B2886E41F0043ADEA /* Extensions */,
+				906191C92888238E005EEF2A /* Components */,
+				90CBA32C2886E4670043ADEA /* Scenes */,
+				5F3DF7FF2896E78A007C7B8E /* Networking */,
+				5F3DF80A2896E85A007C7B8E /* Models */,
+				90A999ED2887467F004AC862 /* Helpers */,
+				90E99EB628894B10007F955E /* initialization */,
 				007239A928844ABA00BFEC1F /* Assets.xcassets */,
 				007239AB28844ABA00BFEC1F /* LaunchScreen.storyboard */,
 				906191C2288803E4005EEF2A /* Main.storyboard */,
-				90E99EB628894B10007F955E /* initialization */,
 				007239AE28844ABA00BFEC1F /* Info.plist */,
 			);
 			path = Scoot;
@@ -218,6 +232,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5F3DF7FF2896E78A007C7B8E /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				908FEA9F288ABDA2007667BD /* AuthService.swift */,
+				90AC7C882892C30F003ADBA5 /* ApiCaller.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		5F3DF80A2896E85A007C7B8E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5F3DF8002896E7C7007C7B8E /* LoginResponse.swift */,
+				5F3DF80B2896E89D007C7B8E /* Location.swift */,
+				5F3DF8082896E831007C7B8E /* BookingResponse.swift */,
+				5F3DF8022896E7E8007C7B8E /* VehicleResponse.swift */,
+				5F3DF8042896E80C007C7B8E /* LocationResponse.swift */,
+				5F3DF8062896E81D007C7B8E /* LocationInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		9018BC822886EF7F008DFDDA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,9 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				906191CB288823B7005EEF2A /* MockData.swift */,
-				908FEA9F288ABDA2007667BD /* AuthService.swift */,
 				5F3CEB3D288FE93A00DD6F15 /* LocationManager.swift */,
-				90AC7C882892C30F003ADBA5 /* ApiCaller.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -601,11 +635,15 @@
 				908FEAA0288ABDA3007667BD /* AuthService.swift in Sources */,
 				5F3CEB3E288FE93A00DD6F15 /* LocationManager.swift in Sources */,
 				9068E8D72893CEF80018B72F /* EmptyView.swift in Sources */,
+				5F3DF8052896E80C007C7B8E /* LocationResponse.swift in Sources */,
 				5F1A43C62891BB1D00878F28 /* RideInProgressVC.swift in Sources */,
+				5F3DF8092896E831007C7B8E /* BookingResponse.swift in Sources */,
 				90A999EF28874693004AC862 /* AppUtility.swift in Sources */,
 				906191BD2887EE9D005EEF2A /* ScootTextField.swift in Sources */,
+				5F3DF8072896E81D007C7B8E /* LocationInfo.swift in Sources */,
 				90F5D2A92889F58800FB8AD3 /* CGRect + Extensions.swift in Sources */,
 				9018BC812886EF57008DFDDA /* K.swift in Sources */,
+				5F3DF80C2896E89D007C7B8E /* Location.swift in Sources */,
 				5F1A43C82891C71800878F28 /* ScootSlider.swift in Sources */,
 				90995576288A233000F00AAF /* ScanVC.swift in Sources */,
 				007239A128844AB900BFEC1F /* AppDelegate.swift in Sources */,
@@ -613,10 +651,12 @@
 				5F74EBBF289554F600D8DE9B /* Date + Extension.swift in Sources */,
 				90666F8A28897B62007275E5 /* VehicleDetailVC.swift in Sources */,
 				5F673084288C3423002DFB0C /* CurrentLocationCell.swift in Sources */,
+				5F3DF8012896E7C7007C7B8E /* LoginResponse.swift in Sources */,
 				007239A328844AB900BFEC1F /* SceneDelegate.swift in Sources */,
 				90FF8BC0288735D300724D32 /* UIViewController + Extensions.swift in Sources */,
 				908FEA9E288ABAEE007667BD /* UserDefaults + Extensions.swift in Sources */,
 				90CBA32A2886E3E50043ADEA /* UIColor + Extenstions.swift in Sources */,
+				5F3DF8032896E7E8007C7B8E /* VehicleResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

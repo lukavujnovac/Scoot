@@ -69,8 +69,8 @@ class VehicleCell: UITableViewCell {
             }
         }
 
-        distanceLabel.text = "SAM IZRACUNAT"
+        distanceLabel.text = "-"
         distanceIndicatorView.layer.cornerRadius = 4
     }
     
-    }
+}

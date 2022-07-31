@@ -87,32 +87,24 @@ class RideInProgressVC: UIViewController {
             
             let date = UserDefaults.standard.getTimerStart() as! Date
             let difference = Date.getTimeInterval(lhs: Date(), rhs: date)
-            
-            print(difference) 
             timerCount = Int(difference)
         }
        
     }
     
     @objc private func sliderChanged() {
-//        print("minja se")
         if slider.value == 1 {
             sliderLabel.text = "COMPLETED!" 
             sliderLabel.textColor = .systemBackground
             titleLabel.text = "COMPLETED!"
             timer.invalidate()
-//            timerCount = 0
             slider.isEnabled = false
             
             UserDefaults.standard.setTimer(value: timerLabel.text ?? "0s")
             
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.navigationController?.pushViewController(RideCompletedVC(), animated: true)
             
             ApiCaller.shared.cancelRide(vehicleId: vehicleId)
-            
-            print(vehicleId)
-//            }
             
         } else {
             sliderLabel.text = "SLIDE TO FINISH RIDE"

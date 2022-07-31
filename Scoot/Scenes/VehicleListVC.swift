@@ -46,7 +46,7 @@ class VehicleListVC: UIViewController {
     private var manager: CLLocationManager?
     private var locationString: String = "no location"
     
-    let reachability = try! Reachability()
+    private let reachability = try! Reachability()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,10 +70,6 @@ class VehicleListVC: UIViewController {
         view.bringSubviewToFront(emptyView)
         
         showSpinner()
-        let notificationCenter = NotificationCenter.default
-        //        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didBecomeActiveNotification, object: nil)
-        
-        print(UserDefaults.standard.getTimerStart())
     }
     
     
@@ -85,8 +81,6 @@ class VehicleListVC: UIViewController {
             self.apiCaller.fetchVehicles().done { response in
                 self.setupLocationManager()
                 self.vehicleModels = response
-                //                self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
-                                print(self.vehicleModels)
                 self.tableView.reloadData()
             }.catch { error in
                 print(error)
@@ -150,6 +144,7 @@ class VehicleListVC: UIViewController {
         manager?.desiredAccuracy = kCLLocationAccuracyBest
         manager?.requestWhenInUseAuthorization()
         manager?.startUpdatingLocation()
+        tableView.reloadData()
     }
 }
 
@@ -219,8 +214,6 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         vehicleModels[indexPath.row - 1].distance = LocationManager.shared.getDistance(for: vehicleModel)
         
         self.vehicleModels = self.vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
-        
-        //        print(vehicleModels[indexPath.row - 1].distance)
         
         cell.configure(with: vehicleModels[indexPath.row - 1])
         

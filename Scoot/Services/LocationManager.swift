@@ -8,11 +8,6 @@
 import Foundation
 import CoreLocation
 
-struct Location {
-    let title: String
-    let coordinates: CLLocationCoordinate2D?
-}
-
 class LocationManager: NSObject {
     static let shared = LocationManager()
     
@@ -43,8 +38,6 @@ class LocationManager: NSObject {
                 if let postalCode = place.postalCode {
                     name += postalCode + " "
                 }
-                
-                print(place)
                 
                 let result = Location(title: name, coordinates: place.location?.coordinate)
                 
@@ -77,7 +70,7 @@ class LocationManager: NSObject {
             {
                 print("reverse geodcode fail: \(error!.localizedDescription)")
             }
-            guard let pm = placemarks as? [CLPlacemark] else {return}
+            guard let pm = placemarks else {return}
             
             if pm.count > 0 {
                 let pm = placemarks![0]

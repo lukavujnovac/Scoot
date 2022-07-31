@@ -4,9 +4,6 @@
 //
 //  Created by Profico on 29.07.2022..
 //
-
-import UIKit
-
 import UIKit
 import SnapKit
 

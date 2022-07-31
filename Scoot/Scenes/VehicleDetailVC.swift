@@ -60,7 +60,6 @@ class VehicleDetailVC: UIViewController {
         self.afterScan = afterScan
         self.vehicleResponses = vehicleResponses
         super.init(nibName: nil, bundle: nil)
-        print(vehicle.vehicleName)
     }
     
     required init?(coder: NSCoder) {
@@ -178,7 +177,6 @@ private extension VehicleDetailVC {
     }
     
     @objc func didTapScan() {
-        print("scan")
         let vc = ScanVC(vehicleModels: vehicleResponses, vehicle: vehicle, afterDetailView: true)
         vc.modalPresentationStyle = .fullScreen
         
@@ -186,7 +184,6 @@ private extension VehicleDetailVC {
     }
     
     @objc private func didTapStart() {
-        print("start ride")
         let vc = RideInProgressVC(vehicle: vehicle.vehicleId)
         navigationController?.pushViewController(vc, animated: true)
         ApiCaller.shared.startRide(vehicleId: vehicle.vehicleId)

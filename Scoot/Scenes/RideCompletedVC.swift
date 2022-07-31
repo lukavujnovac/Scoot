@@ -173,19 +173,6 @@ class RideCompletedVC: UIViewController {
 
         addSubviews()
         
-        let date = UserDefaults.standard.getTimerStart() as! Date
-        
-        let df = DateFormatter()
-        df.dateFormat = "dd/MM/yyyy HH:mm:ss"
-        print(df.string(from: date))
-        
-        print("current date ----")
-        print("\(df.string(from: Date()))")
-        
-        let difference = Date.getTimeInterval(lhs: Date(), rhs: date)
-        
-        print(difference)
-        
         UserDefaults.standard.setTimerStart(date: nil)
     }
     

@@ -199,8 +199,6 @@ private extension LoginVC {
             self.navigationController?.pushViewController(VehicleListVC(), animated: true)
             UserDefaults.standard.setIsLoggedIn(value: true)
             UserDefaults.standard.setLoginToken(value: token)
-            print("token: -----")
-            print(UserDefaults.standard.getLoginToken())
         }.catch { error in
             print(error)
             self.errorMessageLabel.isHidden = false

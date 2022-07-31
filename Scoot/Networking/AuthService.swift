@@ -14,10 +14,6 @@ class AuthService {
     let user = MockData.user
     let loginUrl = "https://scoot-ws.proficodev.com/users/login"
     
-//    func getAccessToken() -> String? {
-//        
-//    }
-    
     public func checkUserInfo(username: String, password: String) -> Bool {
         if user.username == username && user.password == password {
             print("moze se logirat")
@@ -29,9 +25,6 @@ class AuthService {
             return false
         }
     }
-    
-    //Josipa@gmail.com
-    //Andrej123
     
     public func loginUser(email: String, pass: String) -> Promise<LoginResponse> {
         let params: Parameters = [
@@ -47,11 +40,3 @@ class AuthService {
         return Alamofire.request(self.loginUrl, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseDecodable()
     }
 }
-
-
-
-struct LoginResponse: Codable {
-    let accessToken: String?
-}
-
-  

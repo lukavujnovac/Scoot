@@ -86,8 +86,6 @@ class ScanVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         navigationItem.hidesBackButton = true
         
         view.isUserInteractionEnabled = true
-        
-//        print(vehicleModels)
     }
     
     override func viewDidLayoutSubviews() {
@@ -228,10 +226,7 @@ extension ScanVC {
     }
     
     func found(code: String) {
-        print("otvori vozilo \(code)")
-        
         let vehicle = vehicleModels.firstIndex(where: { $0.vehicleId == code})
-        print(vehicle)
         
         if afterDetailView {
             if self.vehicle?.vehicleId == code {
@@ -240,7 +235,6 @@ extension ScanVC {
                 reStart()
                 addSubviews()
                 subtitleLabel.text = "Invalid QR code"
-                print(code)
                 subtitleLabel.textColor = .systemRed
             }
         }else {
@@ -250,7 +244,6 @@ extension ScanVC {
                 reStart()
                 addSubviews()
                 subtitleLabel.text = "Invalid QR code"
-                print(code)
                 subtitleLabel.textColor = .systemRed
             }
         }
