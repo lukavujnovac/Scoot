@@ -91,7 +91,6 @@ class RideInProgressVC: UIViewController {
             let difference = Date.getTimeInterval(lhs: Date(), rhs: date)
             timerCount = Int(difference)
         }
-       
     }
     
     @objc private func sliderChanged() {
@@ -101,23 +100,20 @@ class RideInProgressVC: UIViewController {
             titleLabel.text = "COMPLETED!"
             timer.invalidate()
             slider.isEnabled = false
-            UserDefaults.standard.setTimer(value: self.timerLabel.text ?? "0s")
+            UserDefaults.standard.setTimer(value: timerLabel.text ?? "0s")
             
             reachability.whenReachable = {_ in 
+                
                 self.navigationController?.pushViewController(RideCompletedVC(), animated: true)
                 
                 ApiCaller.shared.cancelRide(vehicleId: self.vehicleId)
             }
-            reachability.whenUnreachable = {_ in 
-                UserDefaults.standard.setTimerStart(date: nil)
-            }
+            
             do {
-                try reachability.startNotifier()
-            }catch {
+                try reachability.startNotifier()  
+            } catch {
                 print("unable to start notifier")
             }
-            
-            
             
         } else {
             sliderLabel.text = "SLIDE TO FINISH RIDE"
