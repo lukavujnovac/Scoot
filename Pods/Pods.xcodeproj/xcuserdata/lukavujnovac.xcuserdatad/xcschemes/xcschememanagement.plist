@@ -14,7 +14,7 @@
 		<key>Cosmos.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>9</integer>
 		</dict>
 		<key>FloatingPanel.xcscheme</key>
 		<dict>
@@ -61,7 +61,7 @@
 		<key>ReachabilitySwift.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>10</integer>
 		</dict>
 		<key>SnapKit.xcscheme</key>
 		<dict>
