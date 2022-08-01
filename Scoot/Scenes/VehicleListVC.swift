@@ -186,6 +186,9 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
         
         guard let distanceString = formatter.string(from: LocationManager.shared.getDistance(for: vehicleModel) / 1000 as NSNumber) else {return UITableViewCell()} 
         
+        vehicleModels[indexPath.row - 1].distance = LocationManager.shared.getDistance(for: vehicleModels[indexPath.row - 1])
+        vehicleModels = vehicleModels.sorted(by: {$0.distance ?? 0.0 < $1.distance ?? 0.0})
+        
         cell.configure(with: vehicleModels[indexPath.row - 1])
         
         cell.distanceLabel.text = "\(distanceString) km away"
@@ -200,6 +203,7 @@ extension VehicleListVC: UITableViewDelegate, UITableViewDataSource {
             vc.modalPresentationStyle = .formSheet
             vc.didSelectLocation = { [weak self] in
                 self?.tableView.reloadData()
+                self?.sortVehiclesByDistance()
             }
             present(vc, animated: true)
         }else {
@@ -254,17 +258,10 @@ extension VehicleListVC: CLLocationManagerDelegate {
     
     private func fetchVehicles() {
         reachability.whenReachable = { _ in
-            self.apiCaller.fetchVehicles().done { response in        
-                self.vehicleModels = response
-                var sortedModels = [VehicleResponse]()
-                self.vehicleModels.forEach { vehicle in
-                    var vehicle1 = vehicle
-                    vehicle1.distance = LocationManager.shared.getDistance(for: vehicle1)
-                    sortedModels.append(vehicle1)
-                }
-                sortedModels = sortedModels.sorted(by: {$0.distance ?? 0 < $1.distance ?? 0})
-                self.vehicleModels = sortedModels
-                self.tableView.reloadData()
+            self.apiCaller.fetchVehicles().done { [weak self] response in        
+                self?.vehicleModels = response
+                self?.sortVehiclesByDistance()
+                self?.tableView.reloadData()
             }.catch { error in
                 print(error)
             }.finally {
@@ -280,7 +277,17 @@ extension VehicleListVC: CLLocationManagerDelegate {
         }catch {
             print("unable to start notifier")
         }
-
+    }
+    
+    private func sortVehiclesByDistance() {
+        var sortedModels = [VehicleResponse]()
+        self.vehicleModels.forEach { vehicle in
+            var vehicle1 = vehicle
+            vehicle1.distance = LocationManager.shared.getDistance(for: vehicle1)
+            sortedModels.append(vehicle1)
+        }
+        sortedModels = sortedModels.sorted(by: {$0.distance ?? 0 < $1.distance ?? 0})
+        self.vehicleModels = sortedModels
     }
 }
 
