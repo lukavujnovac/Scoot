@@ -48,14 +48,14 @@ User had the abillity to toggle password visibillity on and off, and if credenti
 
 ## Vehicle List
 
-Vehicles where fetched from API and displayed in UITableView with custom cells. Vehicles were sorted by distance. User had the ability to change his location and to tap on the vehicle to see more details. User also had the ability to scan and start the ride directly from this screen. If the user entered the app while not having internet connection, spinner would show that would only go away when connected again. Also if no vehicles where available at the moment, screen would show empty view vith text "no available vehicles".
+Vehicles where fetched from API and displayed in UITableView with custom cells. Vehicles were sorted by distance. User had the ability to change his location and to tap on the vehicle to see more details. User also had the ability to scan and start the ride directly from this screen. If the user entered the app while not having internet connection, spinner would show that would only go away when connected again. Also if no vehicles where available at the moment, screen would show empty view with text "no available vehicles".
 
 
 <img width="400" alt="Screenshot 2022-08-02 at 01 54 07" src="https://user-images.githubusercontent.com/84441240/182263992-873b7bb1-2d91-499c-8da5-13fc80c5e8bd.png">
 
 ## QR Code scanning
 
-When selecting scan at the bottom of the list, user would be navigated to this screen, screen only accepted valid qr codes and would show message "invalid qr code" if scanned code was, indeed invalid. If user navigated to this screen after tapping on ofe of the vehicles, scanner would only accept that vehicles code. User also had the abillity to toggle the flash on and off. If user had no internet connection, start ride button would disable
+When selecting scan at the bottom of the list, user would be navigated to this screen, screen only accepted valid qr codes and would show message "invalid qr code" if scanned code was, indeed invalid. If user navigated to this screen after tapping on one of the vehicles, scanner would only accept that vehicle's code. User also had the abillity to toggle the flash on and off. If user had no internet connection, start ride button would disable
 
 ![8AE53673-DDEB-4F4F-876B-DF5E0CB4A03A](https://user-images.githubusercontent.com/84441240/182265074-e6de3c99-833b-4d80-bd9b-f1f747f7a2c9.JPEG)
 
@@ -67,7 +67,7 @@ Ride in progress displays custom circular progress view with timer and custom sl
 
 ## Ride completed screen
 
-This screen displays user's drive statistics and asks user for feedback in shape of star rating systen. Complete ride button takes user to inital Vehicle List screen. 
+This screen displays user's drive statistics and asks user for feedback in shape of star rating system. Complete ride button takes user to inital Vehicle List screen. 
 
 ![BF4DE1A4-913E-44A1-8817-09A4DAC7FCC7](https://user-images.githubusercontent.com/84441240/182266686-4587a352-de9f-4f61-a3d6-d9436dccde73.jpg)
 
