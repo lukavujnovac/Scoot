@@ -52,8 +52,7 @@ User had the abillity to toggle password visibillity on and off, and if credenti
 
 Vehicles where fetched from API and displayed in UITableView with custom cells. Vehicles were sorted by distance. User had the ability to change his location and to tap on the vehicle to see more details. User also had the ability to scan and start the ride directly from this screen. If the user entered the app while not having internet connection, spinner would show that would only go away when connected again. Also if no vehicles where available at the moment, screen would show empty view with text "no available vehicles".
 
-
-<img width="400" alt="Screenshot 2022-08-02 at 01 54 07" src="https://user-images.githubusercontent.com/84441240/182263992-873b7bb1-2d91-499c-8da5-13fc80c5e8bd.png">
+![8A77FC41-0470-445F-BD36-999F639E82D4](https://user-images.githubusercontent.com/84441240/182373531-95f4404d-bdf2-40da-bc1d-1346f2ad86bd.JPEG)
 
 ## QR Code scanning
 
