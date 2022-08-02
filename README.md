@@ -5,7 +5,9 @@ Develop an app that allows users to select smart vehicles after login to book an
 # Tools used
 
 for UI: UIKit with XIBs for custom UITableViewCells, SnapKit and Cosmos
+
 for networking: Kingfisher, PromiseKit and Alamofire
+
 for other features: AVFoundation, CoreLocation, MapKit, Timer, ReachabilitySwift, UserDefaults
 
 # Architecture
